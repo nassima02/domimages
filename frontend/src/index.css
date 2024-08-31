@@ -3,8 +3,6 @@
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
-//  color: var(--primary-main);
-// background-color: red;
   height: 100vh;
 }
 
@@ -23,9 +21,8 @@ body {
 
 #root {
   width: 100%;
-//max-width: 1280px;
-  max-width: 100%; // afficher le site sur tout l'écran'*/
-display: flex;
+  max-width: 100%; /* afficher le site sur tout l'écran'*/
+  display: flex;
   flex-direction: column;
   height:100%;
 }
@@ -34,7 +31,32 @@ main {
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  background-color: var(--background-default);
   padding:2rem;
   overflow: auto;
 }
+
+
+/* Accueil.css */
+.slider-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: calc(100vh - 64px);
+  height: 100%;
+  max-width:1280px;
+  scrollbar-width: none; /* Masquer la barre de défilement pour Firefox */
+  -ms-overflow-style: none; /* Masquer la barre de défilement pour Internet Explorer et Edge */
+}
+
+/* Pour Chrome, Safari et Opera */
+main::-webkit-scrollbar {
+  display: none; /* Masquer la barre de défilement */
+}
+
+.slider-image {
+  width: 100%;
+  height:auto;
+  object-fit: contain;
+  max-height: calc(100vh - 64px);
+}
+
