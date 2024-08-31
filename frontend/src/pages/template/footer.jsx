@@ -5,9 +5,13 @@ import CopyrightIcon from '@mui/icons-material/Copyright';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link } from "react-router-dom";
+import VisitCounter from "../../visitCounter.jsx";
+import {useContext} from "react";
+import {AuthContext} from "../../AuthContext.jsx";
 
 const Footer = () => {
 	const theme = useTheme();
+	const { user } = useContext(AuthContext);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 	const iconSize = isSmallScreen ? '25px' : '25px';
 	const commonIconButtonProps = {
@@ -29,7 +33,7 @@ const Footer = () => {
 			boxShadow: '0 -2px 2px rgba(154, 137, 104, 1)',
 			flexDirection:'row',
 			justifyContent: 'center',
-			zIndex:0
+			zIndex:0//a 1 pour caché le recaptcha
 		}}>
 			<Toolbar sx={{
 				display: 'flex',
@@ -62,7 +66,9 @@ const Footer = () => {
 					>
 						Conditions Générales
 					</Typography>
-
+					{user && user.isAdmin === 1 && (
+						<VisitCounter/>
+					)}
 				</Box>
 
 				<Box sx={{ display: 'flex', justifyContent: 'center' }}>

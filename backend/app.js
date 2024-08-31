@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 
 
 const {login, resetPassword, newPassword, getUserProfile, contact} = require("./controllers/user");
+const {allVisits, compterVisits} = require("./controllers/visits");
 
 const app = express();
 
@@ -38,5 +39,14 @@ app.get('/user/:email', getUserProfile);
      Formulaire de contact
  ******************************************************************/
 app.post('/submit-form', contact)//formulaire de contact
+
+/***************************************************
+    Route qui gère les visites
+ ***************************************************/
+app.get('/totalVisits',  allVisits);// Route pour récupérer le nombre de visites
+app.post('/incrementVisit', compterVisits);// Route pour incrémenter le nombre de visites
+
+
+
 /***************************************************************/
 module.exports = app;
