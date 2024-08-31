@@ -6,6 +6,7 @@ import ResetPassword from "./pages/authentification/resetPassword.jsx";
 import NewPassword from "./pages/authentification/newPassword.jsx";
 import Contact from "./pages/contact.jsx";
 import Apropos from "./pages/apropos.jsx";
+import CGU from "./pages/CGU.jsx";
 
 export const router = createBrowserRouter([
 	{
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
 			{
 				path: '/contact',
 				element: <Contact />,
+			},
+			{
+				path: '/CGU',
+				element: <CGU />,
 			},
 
 		],

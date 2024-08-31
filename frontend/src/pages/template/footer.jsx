@@ -56,7 +56,7 @@ const Footer = () => {
 					<Typography
 						variant="body2"
 						component={Link}
-						to="/conditionsGenerales"
+						to="/CGU"
 						sx={{
 							mb: isSmallScreen ? 0.5 : 0,
 							fontSize: isSmallScreen ? '0.7rem' : '0.9rem',
@@ -64,7 +64,7 @@ const Footer = () => {
 							textDecoration: 'none',
 						}}
 					>
-						Conditions Générales
+						CGU
 					</Typography>
 					{user && user.isAdmin === 1 && (
 						<VisitCounter/>
