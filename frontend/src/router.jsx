@@ -10,6 +10,7 @@ import CGU from "./pages/CGU.jsx";
 import AvisPage from "./pages/avis/avisPage.jsx";
 import BlogPage from "./pages/blog/blogPage.jsx";
 import Projets from "./pages/projets/projets.jsx";
+import ProjetsPhotos from "./pages/projetPhotos/projetsPhotos.jsx";
 
 export const router = createBrowserRouter([
 	{
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
 			{
 				path: '/projets',
 				element: <Projets />,
+			},
+			{
+				path: '/projet/:projetId',
+				element: <ProjetsPhotos />,
 			},
 			{
 				path: '/blog',

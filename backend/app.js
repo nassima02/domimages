@@ -10,7 +10,8 @@ const {login, resetPassword, newPassword, getUserProfile, contact} = require("./
 const {allVisits, compterVisits} = require("./controllers/visits");
 const {addAvis, allAvis, answerAvis, deleteAvis, deleteReply} = require("./controllers/avis");
 const {getArticles, addArticle, deleteArticle, updateArticle} = require("./controllers/blog");
-const {showProjets, addProjet, deleteProjet, updateProjet} = require("./controllers/projets");
+const {showProjets, addProjet, deleteProjet, updateProjet, showPhotosProjet} = require("./controllers/projets");
+const {addPhotoProjet, deletePhotoProjet, updatePhotoProjet} = require("./controllers/photosProjets");
 
 const app = express();
 
@@ -68,6 +69,15 @@ app.get('/projets', showProjets); //Route de récupération de toutes les catég
 app.post('/projets', upload.single('image'), addProjet); //Route d'ajout d'une catégorie
 app.delete('/projets/:projetId', deleteProjet); //Route de suppression d'une catégorie
 app.put('/projets/:projetId', upload.single('image'), updateProjet); //Route de modification d'une catégorie
+
+/***********************************************************************************
+     Routes de recupération d'ajout et de modification des photos d'un projet
+ **********************************************************************************/
+app.get('/projets/:projetId/images', showPhotosProjet); //Route de récupération de toutes les photos d'une catégorie
+app.post('/images', upload.single('image'), addPhotoProjet); //Route d'ajout d'une photo
+app.delete('/images/:imageId', deletePhotoProjet); //Route de suppression d'une catégorie
+app.put('/images/:imageId', upload.single('image'), updatePhotoProjet); //Route de modification d'une catégorie
+
 /*******************************************************************
      gestion du contenu de la page Blog
  ******************************************************************/
