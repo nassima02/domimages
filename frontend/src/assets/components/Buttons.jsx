@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import PropTypes from "prop-types";
 
-const AddButton = ({ text, onClick }) => {
+const Buttons = ({ text, onClick }) => {
 	return (
 		<Button
 			variant="contained"
@@ -15,7 +15,6 @@ const AddButton = ({ text, onClick }) => {
 				},
 				color: 'var(--primary-contrastText)',
 				background: 'var(--primary-main)',
-				//mr: {sx:0, lg:'1rem'},
 				fontWeight:'bold',
 				'&:hover': {
 					background: 'var(--secondary-main)',
@@ -28,9 +27,9 @@ const AddButton = ({ text, onClick }) => {
 	);
 };
 
-AddButton.propTypes = {
+Buttons.propTypes = {
 	text: PropTypes.string.isRequired,
 	onClick: PropTypes.func.isRequired,
 };
 
-export default AddButton;
+export default Buttons;

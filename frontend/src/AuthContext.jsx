@@ -5,10 +5,9 @@ import axios from 'axios';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-	const [user, setUser] = useState(null);
 
-	// Utilisation des variables d'environnement avec Vite
-	const apiUrl = import.meta.env.VITE_API_URL;
+	const [user, setUser] = useState(null);
+	const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
 
 	useEffect(() => {
 		const fetchUser = async () => {

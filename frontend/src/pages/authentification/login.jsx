@@ -15,7 +15,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from '../../AuthContext';
-import Button from "@mui/material/Button";
+import Buttons from "../../assets/components/buttons.jsx";
 
 
 export default function Login() {
@@ -27,7 +27,7 @@ export default function Login() {
 	});
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
-	const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
+	// const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
 
 	const formStyles = {
 		m: 1,
@@ -46,7 +46,7 @@ export default function Login() {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		axios.post(`${apiUrl}/login`, values)
+		axios.post(`http://localhost:4000/login`, values)
 			.then(res => {
 				console.log('Réponse du serveur:', res.data);
 				if (res.data.Status === 'Success') {
@@ -125,7 +125,7 @@ export default function Login() {
 					}}
 				>
 					<Box sx={{ display: 'flex',  mt: { xs: 2, sm: 4 }, width: { xs: '50%', sm: 'auto' },  alignSelf: 'center' }}>
-						<Button text="Se connecter" onClick={handleSubmit} />
+						<Buttons text="Se connecter" onClick={handleSubmit} />
 					</Box>
 				</Box>
 			</form>
