@@ -28,7 +28,6 @@ function VisitCounter() {
 		}
 		axios.get(`${apiUrl}/totalVisits`)
 			.then(response => {
-				console.log('Visites récupérées:', response.data.visits);
 				setVisitCount(response.data.visits);
 			})
 			.catch(error => {

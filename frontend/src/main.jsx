@@ -30,7 +30,7 @@ const theme = createTheme({
         h1: {
             color: 'var(--primary-light)',
             marginBottom:'2rem',
-            fontSize: '1.5rem',
+            fontSize: '1.3rem',
             '@media (min-width:600px)': {
                 fontSize: '2rem',
             },

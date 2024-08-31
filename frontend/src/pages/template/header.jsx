@@ -93,9 +93,9 @@ const Header = () => {
 						>
 							<MenuItem onClick={handleNavMenuClose} component={Link} to="/">Accueil</MenuItem>
 							<MenuItem onClick={handleNavMenuClose} component={Link} to="/galeries">Galeries</MenuItem>
-							<MenuItem onClick={handleNavMenuClose} component={Link} to="/lesProjets">Projets</MenuItem>
+							<MenuItem onClick={handleNavMenuClose} component={Link} to="/projets">Projets</MenuItem>
 							<MenuItem onClick={handleNavMenuClose} component={Link} to="/blog">Blog</MenuItem>
-							<MenuItem onClick={handleNavMenuClose} component={Link} to="/lesAvis">Avis</MenuItem>
+							<MenuItem onClick={handleNavMenuClose} component={Link} to="/avis">Avis</MenuItem>
 							<MenuItem onClick={handleNavMenuClose} component={Link} to="/apropos">A propos</MenuItem>
 							<MenuItem onClick={handleNavMenuClose} component={Link} to="/contact">Contact</MenuItem>
 						</Menu>
@@ -143,9 +143,9 @@ const Header = () => {
 						>
 							<Tab label="Accueil" component={Link} to="/" />
 							<Tab label="Galeries" component={Link} to="/galeries" />
-							<Tab label="Projets" component={Link} to="/lesProjets" />
+							<Tab label="Projets" component={Link} to="/projets" />
 							<Tab label="Blog" component={Link} to="/blog" />
-							<Tab label="Avis" component={Link} to="/lesAvis" />
+							<Tab label="Avis" component={Link} to="/avis" />
 							<Tab label="A propos" component={Link} to="/apropos" />
 							<Tab label="Contact" component={Link} to="/contact" />
 						</Tabs>

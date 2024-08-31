@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const {login, resetPassword, newPassword, getUserProfile, contact} = require("./controllers/user");
 const {allVisits, compterVisits} = require("./controllers/visits");
+const {addAvis, allAvis, answerAvis, deleteAvis, deleteReply} = require("./controllers/avis");
 
 const app = express();
 
@@ -39,6 +40,16 @@ app.get('/user/:email', getUserProfile);
      Formulaire de contact
  ******************************************************************/
 app.post('/submit-form', contact)//formulaire de contact
+
+
+/*******************************************************************
+     gestion des avis des utilisateurs
+ ******************************************************************/
+app.post('/newAvis', addAvis);// route pour ajouter un avis
+app.get('/avis', allAvis);// route pour récupérer tous les avis
+app.post('/avis/:id/reply', answerAvis);// route pour répondre à un avis
+app.delete('/avis/:id', deleteAvis);// route pour supprimer un avis
+app.delete('/avis/:commentId/reply/:replyId', deleteReply);// route pour supprimer une réponse
 
 /***************************************************
     Route qui gère les visites

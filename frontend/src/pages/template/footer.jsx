@@ -49,23 +49,23 @@ const Footer = () => {
 				</Box>
 
 				<Box sx={{display: "flex", gap:{xs:1, md:2} , flexDirection: {xs: "column", md:'row' } }}>
-					<Box sx={{display:'flex', justifyContent:{xs:'center'}}}>
-						<CopyrightIcon sx={{fontSize: '1rem', mr: 0.5, aligneSelf:'center'}}/>
-						<Typography variant="body2" sx={{fontSize: '0.8rem', color: 'var(--primary-contrastText)', mr: 1}}>2024 </Typography>
-					</Box>
-					<Typography
-						variant="body2"
-						component={Link}
-						to="/CGU"
-						sx={{
-							mb: isSmallScreen ? 0.5 : 0,
-							fontSize: isSmallScreen ? '0.7rem' : '0.9rem',
-							color: 'var(--primary-contrastText)',
-							textDecoration: 'none',
-						}}
-					>
-						CGU
-					</Typography>
+						<Box sx={{display:'flex', justifyContent:{xs:'center'}}}>
+							<CopyrightIcon sx={{fontSize: '1rem', mr: 0.5, aligneSelf:'center'}}/>
+							<Typography variant="body2" sx={{fontSize: '0.8rem', color: 'var(--primary-contrastText)', mr: 1}}>2024 </Typography>
+							<Typography
+								variant="body2"
+								component={Link}
+								to="/CGU"
+								sx={{
+									mb: isSmallScreen ? 0.5 : 0,
+									fontSize: isSmallScreen ? '0.7rem' : '0.9rem',
+									color: 'var(--primary-contrastText)',
+									textDecoration: 'none',
+								}}
+							>
+								CGU
+							</Typography>
+						</Box>
 					{user && user.isAdmin === 1 && (
 						<VisitCounter/>
 					)}
