@@ -34,7 +34,7 @@ function PhotoDialog({open, onClose, title, images, refreshGallery}) {
 			axios.delete(`${apiUrl}/images/${imageId}`)
 				.then(res => {
 					console.log('Photo supprimée:', res.data);
-					refreshGallery(); // Rafraîchir la galerie globale
+					refreshGallery(); // Rafraîchir la galeries globale
 				})
 				.catch(error => {
 					console.error('Erreur lors de la suppression de la photo:', error);

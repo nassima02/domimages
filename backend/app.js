@@ -12,6 +12,8 @@ const {addAvis, allAvis, answerAvis, deleteAvis, deleteReply} = require("./contr
 const {getArticles, addArticle, deleteArticle, updateArticle} = require("./controllers/blog");
 const {showProjets, addProjet, deleteProjet, updateProjet, showPhotosProjet} = require("./controllers/projets");
 const {addPhotoProjet, deletePhotoProjet, updatePhotoProjet} = require("./controllers/photosProjets");
+const {showAllPhotos, addCategory, updateCategory, deleteCategory, showCategories, showPhotosCategory} = require("./controllers/galeries");
+const {addPhoto, updatePhoto, deletePhoto} = require("./controllers/photosGaleries");
 
 const app = express();
 
@@ -61,6 +63,23 @@ app.get('/user/:email', getUserProfile);
      Formulaire de contact
  ******************************************************************/
 app.post('/submit-form', contact)//formulaire de contact
+
+/*********************************************************************
+     Routes de recupération d'ajout et de modification des catégories
+ *********************************************************************/
+app.get('/photos', showAllPhotos); //Route de récupération de toutes les photos des catégories
+app.get('/categories', showCategories); //Route de récupération de toutes les catégories
+app.post('/galeries', upload.single('image'), addCategory); //Route d'ajout d'une catégorie
+app.delete('/categories/:categoryId', deleteCategory); //Route de suppression d'une catégorie
+app.put('/categories/:categoryId', upload.single('image'), updateCategory); //Route de modification d'une catégorie
+
+/***********************************************************************************
+     Routes de recupération d'ajout et de modification des photos de la catégorie
+ **********************************************************************************/
+app.get('/categories/:categoryId/photos', showPhotosCategory); //Route de récupération de toutes les photos d'une catégorie
+app.post('/photos', upload.single('image'), addPhoto); //Route d'ajout d'une photo
+app.delete('/photos/:photoId', deletePhoto); //Route de suppression d'une catégorie
+app.put('/photos/:photoId', upload.single('image'), updatePhoto); //Route de modification d'une catégorie
 
 /*********************************************************************
      Routes de recupération d'ajout et de modification des projets

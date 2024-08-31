@@ -11,6 +11,8 @@ import AvisPage from "./pages/avis/avisPage.jsx";
 import BlogPage from "./pages/blog/blogPage.jsx";
 import Projets from "./pages/projets/projets.jsx";
 import ProjetsPhotos from "./pages/projetPhotos/projetsPhotos.jsx";
+import Galeries from "./pages/galeries/galeries.jsx";
+import PhotosGallery from "./pages/galeriePhotos/photosGallery.jsx";
 
 export const router = createBrowserRouter([
 	{
@@ -32,6 +34,14 @@ export const router = createBrowserRouter([
 			{
 				path: '/newPassword/:token',
 				element: <NewPassword />,
+			},
+			{
+				path: 'galeries',
+				element: <Galeries />,
+			},
+			{
+				path: '/category/:categoryId',
+				element: <PhotosGallery  />,
 			},
 			{
 				path: '/projets',
