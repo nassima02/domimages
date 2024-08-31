@@ -8,6 +8,7 @@ import Contact from "./pages/contact.jsx";
 import Apropos from "./pages/apropos.jsx";
 import CGU from "./pages/CGU.jsx";
 import AvisPage from "./pages/avis/avisPage.jsx";
+import BlogPage from "./pages/blog/blogPage.jsx";
 
 export const router = createBrowserRouter([
 	{
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
 			{
 				path: '/newPassword/:token',
 				element: <NewPassword />,
+			},
+			{
+				path: '/blog',
+				element: <BlogPage />,
 			},
 			{
 				path: '/avis',

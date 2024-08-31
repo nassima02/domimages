@@ -1,13 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
 const { db } = require("./db_config/db_config");
 const { v4: uuidv4 } = require('uuid');
-
 
 const {login, resetPassword, newPassword, getUserProfile, contact} = require("./controllers/user");
 const {allVisits, compterVisits} = require("./controllers/visits");
 const {addAvis, allAvis, answerAvis, deleteAvis, deleteReply} = require("./controllers/avis");
+const {getArticles, addArticle, deleteArticle, updateArticle} = require("./controllers/blog");
 
 const app = express();
 
@@ -16,6 +18,23 @@ const app = express();
  ***************************************************/
 app.use(express.json());
 app.use(cors());
+app.use(express.static('public'));
+app.use(express.static('files'));
+
+/***************************************************************
+	configuration de Multer pour les téléchargements de fichiers
+ ***************************************************************/
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, 'uploads/');
+	},
+	filename: function (req, file, cb) {
+		const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+		cb(null, uniqueSuffix + '-' + file.originalname);
+	}
+});
+const upload = multer({ storage: storage });
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));// Servir les fichiers statiques
 
 /***************************************************
 	Connexion à la base de données
@@ -41,6 +60,13 @@ app.get('/user/:email', getUserProfile);
  ******************************************************************/
 app.post('/submit-form', contact)//formulaire de contact
 
+/*******************************************************************
+     gestion du contenu de la page Blog
+ ******************************************************************/
+app.get('/articles', getArticles); // Route de récupération de tous les liens
+app.post('/articles', upload.single('image'), addArticle);  // Route d'ajout d'un lien
+app.delete('/articles/:articleId', deleteArticle); // Route de suppression d'un lien
+app.put('/articles/:articleId', upload.single('image'), updateArticle); // Route de modification d'un lien
 
 /*******************************************************************
      gestion des avis des utilisateurs
