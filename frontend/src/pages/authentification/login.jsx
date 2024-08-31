@@ -27,7 +27,7 @@ export default function Login() {
 	});
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
-	// const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
+	const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
 
 	const formStyles = {
 		m: 1,
@@ -46,7 +46,7 @@ export default function Login() {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		axios.post(`http://localhost:4000/login`, values)
+		axios.post(`${apiUrl}/login`, values)
 			.then(res => {
 				console.log('Réponse du serveur:', res.data);
 				if (res.data.Status === 'Success') {

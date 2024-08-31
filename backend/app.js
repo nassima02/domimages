@@ -5,7 +5,7 @@ const { db } = require("./db_config/db_config");
 const { v4: uuidv4 } = require('uuid');
 
 
-const {login} = require("./controllers/user");
+const {login, resetPassword, newPassword} = require("./controllers/user");
 
 const app = express();
 
@@ -30,6 +30,8 @@ db.connect((err) => {
     Routes d'authentifications des utilisateurs
  ***************************************************/
 app.post('/login', login);
+app.post('/resetPassword', resetPassword);
+app.post('/newPassword', newPassword);
 
 
 
