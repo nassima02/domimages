@@ -4,7 +4,10 @@ const { v4: uuidv4 } = require('uuid');
 const { db } = require('../db_config/db_config');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const {get} = require("axios");
 const salt = 10;
+
+const RECAPTCHA_SECRET_KEY = `${process.env.SECRET_KEY_RECAPTCHA}`;
 
 const transporter = nodemailer.createTransport({
 	host:"smtp-mail.outlook.com",
@@ -28,8 +31,8 @@ function sendResetEmail(email, resetLink) {
 	const mailOptions = {
 		from: process.env.EMAIL_USER,
 		to: email,
-		subject: 'Password Reset',
-		text: `Click the following link to reset your password: ${resetLink}`,
+		subject: 'Réinitialisation du mot de passe',
+		text: `Cliquez sur le lien suivant pour réinitialiser votre mot de passe: ${resetLink}`,
 	};
 
 	transporter.sendMail(mailOptions, (err, info) => {
@@ -90,16 +93,16 @@ exports.resetPassword = (req, res) => {
 		(err, result) => {
 			if (err) {
 				console.error(err);
-				return res.status(500).json({ message: 'Internal server error' });
+				return res.status(500).json({ message: 'Erreur interne du serveur' });
 			}
 
 			if (result.affectedRows === 0) {
-				return res.status(400).json({ message: 'No user with that email' });
+				return res.status(400).json({ message: 'Aucun utilisateur trouvé avec cet email' });
 			}
 
 			const resetLink = `http://localhost:5173/newPassword/${resetToken}`;
 			sendResetEmail(email, resetLink);
-			res.json({ message: 'Reset email sent' });
+			res.json({ message: 'Email de réinitialisation envoyé' });
 		}
 	);
 };
@@ -116,11 +119,11 @@ exports.newPassword = (req, res) => {
 		async (err, result) => {
 			if (err) {
 				console.error(err);
-				return res.status(500).json({ message: 'Internal server error' });
+				return res.status(500).json({ message: 'Erreur interne du serveur' });
 			}
 
 			if (result.length === 0) {
-				return res.status(400).json({ message: 'Invalid or expired token' });
+				return res.status(400).json({ message: 'Token invalide ou expiré' });
 			}
 
 			const user = result[0];
@@ -132,12 +135,79 @@ exports.newPassword = (req, res) => {
 				(err, result) => {
 					if (err) {
 						console.error(err);
-						return res.status(500).json({ message: 'Internal server error' });
+						return res.status(500).json({ message: 'Erreur interne du serveur'  });
 					}
-
-					res.json({ success: true, message: 'Password reset successfully' });
+					res.json({ success: true, message: 'Mot de passe réinitialisé avec succès' });
 				}
 			);
 		}
 	);
+};
+
+/** *****************************************************************
+ * cette fonction permet de récupérer les informations d'un utilisateur
+ *  par son ID
+ *  ******************************************************************/
+exports.getUserProfile = (req, res) => {
+	const userEmail = req.params.email;
+
+	// Requête SQL pour obtenir les informations de l'utilisateur
+	const query = 'SELECT first_name, last_name, email, profile_picture, isAdmin FROM users WHERE email = ?';
+
+	db.query(query, [userEmail], (err, results) => {
+		if (err) {
+			console.error('Erreur lors de la récupération de l\'utilisateur:', err);
+			return res.status(500).json({ error: 'Une erreur est survenue lors de la récupération des données de l\'utilisateur' });
+		}
+
+		if (results.length === 0) {
+			return res.status(404).json({ error: 'Utilisateur non trouvé' });
+		}
+		res.json(results[0]); // Envoyer les données de l'utilisateur
+	});
+};
+
+/** *****************************************************************************
+ * cette fonction permet de d'envoyer un message à partir du formulaire de contact
+ *  *******************************************************************************/
+exports.contact = async (req, res) => {
+	const { name, email, sujet, message, captchaToken  } = req.body;
+
+	if (!name || !email || !sujet || !message || !captchaToken) {
+		return res.status(400).json({ success: false, message: 'Données manquantes ou incorrectes' });
+	}
+	// Vérification du captcha
+	try {
+		const response = await get('https://www.google.com/recaptcha/api/siteverify',  {
+			params: {
+				secret: RECAPTCHA_SECRET_KEY,
+				response: captchaToken
+			}
+		});
+
+		if (!response.data.success) {
+			// Le captcha est invalide, renvoyer une erreur
+			return res.status(400).json({ success: false, message: 'Captcha invalide' });
+		}
+	} catch (error) {
+		console.error('Erreur lors de la validation du captcha:', error);
+		return res.status(500).json({ success: false, message: 'Erreur lors de la validation du captcha' });
+	}
+	// Si le captcha est valide, envoyer l'e-mail
+	const mailOptions = {
+		from: process.env.EMAIL_USER,
+		to: 'dominiquebression@gmail.com',
+		subject: 'Nouveau formulaire de contact',
+		text: `Nom: ${name}\nEmail: ${email}\nSujet: ${sujet}\nMessage: ${message}`,
+		replyTo: email,
+	};
+
+	try {
+		const info = await transporter.sendMail(mailOptions);
+		console.log('Contact email sent:', info.response);
+		res.status(200).json({ success: true, message: 'E-mail envoyé avec succès' });
+	} catch (error) {
+		console.error('Erreur lors de l\'envoi de l\'e-mail de contact:', error);
+		res.status(500).json({ success: false, message: 'Erreur lors de l\'envoi de l\'e-mail de contact' });
+	}
 };

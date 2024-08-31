@@ -5,7 +5,7 @@ const { db } = require("./db_config/db_config");
 const { v4: uuidv4 } = require('uuid');
 
 
-const {login, resetPassword, newPassword} = require("./controllers/user");
+const {login, resetPassword, newPassword, getUserProfile, contact} = require("./controllers/user");
 
 const app = express();
 
@@ -32,8 +32,11 @@ db.connect((err) => {
 app.post('/login', login);
 app.post('/resetPassword', resetPassword);
 app.post('/newPassword', newPassword);
+app.get('/user/:email', getUserProfile);
 
-
-
+/*******************************************************************
+     Formulaire de contact
+ ******************************************************************/
+app.post('/submit-form', contact)//formulaire de contact
 /***************************************************************/
 module.exports = app;
