@@ -10,6 +10,7 @@ const {login, resetPassword, newPassword, getUserProfile, contact} = require("./
 const {allVisits, compterVisits} = require("./controllers/visits");
 const {addAvis, allAvis, answerAvis, deleteAvis, deleteReply} = require("./controllers/avis");
 const {getArticles, addArticle, deleteArticle, updateArticle} = require("./controllers/blog");
+const {showProjets, addProjet, deleteProjet, updateProjet} = require("./controllers/projets");
 
 const app = express();
 
@@ -60,6 +61,13 @@ app.get('/user/:email', getUserProfile);
  ******************************************************************/
 app.post('/submit-form', contact)//formulaire de contact
 
+/*********************************************************************
+     Routes de recupération d'ajout et de modification des projets
+ *********************************************************************/
+app.get('/projets', showProjets); //Route de récupération de toutes les catégories
+app.post('/projets', upload.single('image'), addProjet); //Route d'ajout d'une catégorie
+app.delete('/projets/:projetId', deleteProjet); //Route de suppression d'une catégorie
+app.put('/projets/:projetId', upload.single('image'), updateProjet); //Route de modification d'une catégorie
 /*******************************************************************
      gestion du contenu de la page Blog
  ******************************************************************/

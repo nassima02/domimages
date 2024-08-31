@@ -15,7 +15,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from '../../AuthContext';
-import Buttons from "../../assets/components/buttons.jsx";
+import Buttons from "../../components/buttons.jsx";
 
 
 export default function Login() {

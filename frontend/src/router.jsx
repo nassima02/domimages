@@ -9,6 +9,7 @@ import Apropos from "./pages/apropos.jsx";
 import CGU from "./pages/CGU.jsx";
 import AvisPage from "./pages/avis/avisPage.jsx";
 import BlogPage from "./pages/blog/blogPage.jsx";
+import Projets from "./pages/projets/projets.jsx";
 
 export const router = createBrowserRouter([
 	{
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
 			{
 				path: '/newPassword/:token',
 				element: <NewPassword />,
+			},
+			{
+				path: '/projets',
+				element: <Projets />,
 			},
 			{
 				path: '/blog',

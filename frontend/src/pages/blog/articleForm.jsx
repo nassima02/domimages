@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {Box, TextField, Typography} from '@mui/material';
-import AddButton from '../../assets/components/buttons.jsx';
+import AddButton from '../../components/buttons.jsx';
 
 const ArticleForm = ({ onSubmit, editingLink, setEditingLink, initialData }) => {
 	const [newLink, setNewLink] = useState(initialData);
