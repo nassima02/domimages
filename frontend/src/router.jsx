@@ -5,6 +5,7 @@ import Login from "./pages/authentification/login.jsx";
 import ResetPassword from "./pages/authentification/resetPassword.jsx";
 import NewPassword from "./pages/authentification/newPassword.jsx";
 import Contact from "./pages/contact.jsx";
+import Apropos from "./pages/apropos.jsx";
 
 export const router = createBrowserRouter([
 	{
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
 			{
 				path: '/newPassword/:token',
 				element: <NewPassword />,
+			},
+			{
+				path: '/apropos',
+				element: <Apropos />,
 			},
 			{
 				path: '/contact',
