@@ -27,7 +27,7 @@ function Apropos() {
 						}}
 					/>
 				</Box>
-				<Box sx={{ padding: 2, width: '100%', order: { xs: 0, md: 1 } }}>
+				<Box sx={{ p: 2, mb:3, width: '100%', order: { xs: 0, md: 1 } }}>
 					<Typography variant="body1" component="p">
 						Je me présente, Dominique BRESSION (pseudo:DomImages), photographe amateur autodidacte
 						passionné depuis une quinzaine d&apos;années. <br/><br/>

@@ -60,7 +60,7 @@ const Contact = () => {
 					} else {
 						toast.error(result.message || 'Erreur lors de l\'envoi du message.');
 					}
-				} catch (error) {
+				} catch {
 					toast.error('Erreur lors de l\'envoi du message.');
 				}
 			});
@@ -74,17 +74,17 @@ const Contact = () => {
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: 'center',
-			padding: '30px 0 0 0'
+			padding: '30px 0 0 0',
 		}}>
 			<Typography variant="h1" component="h1" sx={{textWrap: 'nowrap'}} >
 				ME CONTACTER
 			</Typography>
 
-			<form onSubmit={handleSubmit(handleFormSubmit)}>
+			<form  onSubmit={handleSubmit(handleFormSubmit)}>
 				<Typography variant="body1">
 					Vous souhaitez prendre contact, n&apos;hésitez pas, laissez moi un message en utilisant le
 					formulaire ci-dessous, ou directement a l&apos;adresse
-					mail: <strong>domimage@alwaysdata.net</strong> <br/><br/>
+					mail: <strong>domimages@alwaysdata.net</strong> <br/><br/>
 					Je vous répondrai rapidement.
 				</Typography>
 				<TextField
@@ -140,6 +140,8 @@ const Contact = () => {
 						backgroundColor: 'var(--secondary-main)',
 						color: 'var(--primary-main)',
 						fontWeight:'bold',
+						mb:3,
+						mt:2,
 						'&:disabled': {
 							backgroundColor: 'var(--primary-main)',
 							color: 'var(--secondary-main)',

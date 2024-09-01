@@ -14,7 +14,7 @@ const settings = {
 	autoplay: true,
 	autoplaySpeed: 3000,
 	fade: true,
-	pauseOnHover: true,
+	pauseOnHover: false,
 	arrows: false,
 };
 
@@ -22,17 +22,33 @@ function Accueil() {
 	const [photos, setPhotos] = useState([]);
 	const theme = useTheme();
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-	const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
+	const apiUrl = import.meta.env.VITE_API_URL;
 
-	/** recupération de toutes les photos du site  **/
 	useEffect(() => {
-		axios.get(`${apiUrl}/photos`)
-			.then(response => {
-				setPhotos(response.data);
-			})
-			.catch(error => {
-				console.error('Error fetching photos:', error);
-			});
+		const fetchPhotos = async () => {
+			try {
+				// Récupérer les photos depuis la table "photos"
+				const photosResponse = await axios.get(`${apiUrl}/photos`);
+				const photosData = photosResponse.data;
+
+				// Récupérer les photos depuis la table "projet"
+				const projetsResponse = await axios.get(`${apiUrl}/projets`);
+				const projetsData = projetsResponse.data.map(projet => ({
+					photo_image: projet.projet_image, // Assure que la structure des données est la même
+					photo_title: projet.projet_title
+				}));
+
+				// Combiner les deux ensembles de données
+				const combinedPhotos = [...photosData, ...projetsData];
+
+				// Mettre à jour l'état avec les photos combinées
+				setPhotos(combinedPhotos);
+			} catch (error) {
+				console.error('Error fetching photos or projects:', error);
+			}
+		};
+
+		fetchPhotos();
 	}, []);
 
 	return (
@@ -41,13 +57,11 @@ function Accueil() {
 				flexGrow: 1,
 				width: '100%',
 				textAlign: 'center',
-				//maxHeight: 'calc(100vh - 64px)',
-				// overflow: isSmallScreen? 'hidden': 'auto',
+				margin: 'auto',
+				paddingTop: '30px!important',
+			//	overflow: isSmallScreen ? 'hidden' : 'auto', // Empêche le scroll sur mobile
 			}}
 		>
-			<Typography variant="h1" component="h1">
-				{/*Bienvenue sur DomImages photographie*/}
-			</Typography>
 			{photos.length > 0 ? (
 				<Slider {...settings}>
 					{photos.map((photo, index) => (
@@ -61,6 +75,8 @@ function Accueil() {
 								className="slider-image"
 								style={{
 									height: isSmallScreen ? 'auto' : '900px',
+									width: '100%',
+									objectFit: 'contain', // Afficher l'image en entier sans la déformer
 								}}
 							/>
 						</Box>

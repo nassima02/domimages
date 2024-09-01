@@ -33,7 +33,7 @@ const Footer = () => {
 			boxShadow: '0 -2px 2px rgba(154, 137, 104, 1)',
 			flexDirection:'row',
 			justifyContent: 'center',
-			zIndex:0//a 1 pour caché le recaptcha
+			zIndex:0,//a 1 pour caché le recaptcha
 		}}>
 			<Toolbar sx={{
 				display: 'flex',

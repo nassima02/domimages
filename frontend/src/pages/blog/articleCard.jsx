@@ -83,13 +83,20 @@ export default function ArticleCard({ article, handleUpdateArticle, handleDelete
 									},
 								}}
 							>
-								<MenuItem onClick={() => { handleUpdateArticle(article); handleClose(); }}>
+								<MenuItem
+									onClick={() => { handleUpdateArticle(article); handleClose(); }}
+									style={{ fontSize: '13px' }} // Taille de la police réduite
+								>
 									Modifier
 								</MenuItem>
-								<MenuItem onClick={() => { handleDeleteArticle(article.article_id); handleClose(); }}>
+								<MenuItem
+									onClick={() => { handleDeleteArticle(article.article_id); handleClose(); }}
+									style={{ fontSize: '13px' }} // Taille de la police réduite
+								>
 									Supprimer
 								</MenuItem>
 							</Menu>
+
 						</>
 					)}
 					title={article.title}

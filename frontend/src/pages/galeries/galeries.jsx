@@ -30,7 +30,7 @@ function Galeries() {
 	};
 
 	return (
-		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '1280px', width: '100%', paddingTop: 4, paddingBottom: 2 }}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '1280px', width: '100%', paddingTop: 4}}>
 			<Box sx={{ display: 'flex', justifyContent: 'center', gap: 4, alignItems: 'center', textAlign: 'center' }}>
 				<Typography variant="h1" component="h1">
 					GALERIES

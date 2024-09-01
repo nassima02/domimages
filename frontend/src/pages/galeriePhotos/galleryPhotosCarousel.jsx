@@ -115,13 +115,23 @@ const GalleryPhotosCarousel = ({ photos, selectedIndex, handlePrev, handleNext, 
 						position: 'relative',
 						overflow: 'hidden',
 						padding: 0,
+						width: '100vw',    // Prend toute la largeur de l'écran
+						height: '100vh',   // Prend toute la hauteur de l'écran
+						display: 'flex',   // Utilisation de flexbox
+						justifyContent: 'center',  // Centre horizontalement
+						alignItems: 'center',      // Centre verticalement
 					}}
 				>
 					<img
 						ref={imageRef}
 						src={`${apiUrl}${photos[selectedIndex].photo_image}?w=600&auto=format`}
 						alt={photos[selectedIndex].photo_title}
-						style={{ maxWidth: '100%' }}
+						style={{
+							maxWidth: '100%',
+							maxHeight: '100%',
+							objectFit: 'contain', // S'assure que l'image est entièrement visible
+							display: 'block',     // Supprime les espaces blancs autour de l'image
+						}}
 					/>
 				</DialogContent>
 

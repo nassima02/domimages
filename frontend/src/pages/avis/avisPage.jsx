@@ -138,9 +138,9 @@ const AvisPage = () => {
 	};
 
 	return (
-		<Container sx={{ width: { xs: '100%', sm: '80%', md: '60%' }, maxWidth: '1280px', paddingTop: 2, paddingBottom: 2, m: { xs: 0, sm: 1, md: 2  }}}>
+		<Container sx={{ width: { xs: '100%', sm: '80%', md: '60%' }, maxWidth: '1280px', pt: 2, m: { xs: 0, sm: 1, md: 2  }}}>
 			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', flexDirection:'column' }}>
-				<Typography variant="h1" component="h1" sx={{ color: 'var(--primary-main)' }}>
+				<Typography variant="h1" component="h1">
 					AVIS
 				</Typography>
 				<Typography variant="body1" component="body1" >
@@ -155,10 +155,11 @@ const AvisPage = () => {
 				sx={{
 					backgroundColor: 'var(--primary-main)',
 					boxShadow: '0 2px 2px rgba(154, 137, 104, 1)',
-					mt: '1.5rem',
+					mb:4,
+					mt:2
 				}}
 			/>
-			<Typography variant="h2" component="h2" sx={{ color: 'var(--primary-main)' }}>
+			<Typography variant="h2" component="h2" >
 				Avis des visiteurs
 			</Typography>
 			<AvisList avis={avis} onDelete={handleDeleteAvis} onSubmitReply={handleSubmitReply} onDeleteReply={handleDeleteReply} />

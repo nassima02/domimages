@@ -5,7 +5,7 @@ import Card from "../../components/card.jsx";
 export default function ProjetCards({ projets, onProjetClick }) {
 
 	return (
-		<Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', minWidth: 300, width: '100%', paddingTop: 2 }}>
+		<Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', minWidth: 300, width: '100%', pt: 2, pb: 2  }}>
 			{projets.map((projet) => (
 				<Card key={projet.projet_id} id={projet.projet_id} title={projet.projet_title} image={projet.projet_image} onClick={onProjetClick}/>
 			))}

@@ -29,7 +29,7 @@ const AvisForm = ({ onSubmit, onCancel }) => {
 	};
 
 	return (
-		<Box sx={{ pt: 2, pb: 2}}>
+		<Box sx={{ pt: 2, pb: 2 }}>
 			<form onSubmit={handleSubmit}>
 				<TextField
 					id="name"
