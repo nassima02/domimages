@@ -16,32 +16,29 @@ const Header = () => {
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 	const iconSize = isSmallScreen ? '65px' : '80px';
 
+	// Scroller vers le haut à chaque changement de route
 	useEffect(() => {
-		switch (location.pathname) {
-			case '/':
-				setValue(0);
-				break;
-			case '/galeries':
-				setValue(1);
-				break;
-			case '/projets':
-				setValue(2);
-				break;
-			case '/blog':
-				setValue(3);
-				break;
-			case '/avis':
-				setValue(4);
-				break;
-			case '/apropos':
-				setValue(5);
-				break;
-			case '/contact':
-				setValue(6);
-				break;
-			default:
-				setValue(0);
-				break;
+		window.scrollTo(0, 0);
+	}, [location.pathname]);
+
+	useEffect(() => {
+		const path = location.pathname;
+		if (path === '/') {
+			setValue(0);
+		} else if (path === '/galeries' || path.includes('/category/')) {
+			setValue(1);
+		} else if (path === '/lesProjets' || path.includes('/projet/')) {
+			setValue(2);
+		} else if (path === '/blog') {
+			setValue(3);
+		} else if (path === '/lesAvis') {
+			setValue(4);
+		} else if (path === '/apropos') {
+			setValue(5);
+		} else if (path === '/contact') {
+			setValue(6);
+		} else {
+			setValue(0); // Default value for unrecognized routes
 		}
 	}, [location.pathname]);
 
@@ -79,12 +76,20 @@ const Header = () => {
 			zIndex: 1300,
 			width: '100%',
 		}}>
-			<Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px', maxWidth: '1280px', flexGrow: 1, margin: '0 auto' }}>
+			<Toolbar sx={{
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'space-between',
+				padding: '10px',
+				maxWidth: '1280px',
+				flexGrow: 1,
+				margin: '0 auto'
+			}}>
 				<img src="/images/logo.png" alt="Logo" style={{ height: iconSize }} />
 				{isSmallScreen ? (
 					<Box>
-						<IconButton edge="start" color="inherit" aria-label="menu"  onClick={handleNavMenuClick} >
-							<MenuIcon fontSize= 'large' />
+						<IconButton edge="start" color="inherit" aria-label="menu" onClick={handleNavMenuClick}>
+							<MenuIcon fontSize='large' />
 						</IconButton>
 						<Menu
 							anchorEl={navAnchorEl}
@@ -93,15 +98,15 @@ const Header = () => {
 						>
 							<MenuItem onClick={handleNavMenuClose} component={Link} to="/">Accueil</MenuItem>
 							<MenuItem onClick={handleNavMenuClose} component={Link} to="/galeries">Galeries</MenuItem>
-							<MenuItem onClick={handleNavMenuClose} component={Link} to="/projets">Projets</MenuItem>
+							<MenuItem onClick={handleNavMenuClose} component={Link} to="/lesProjets">Projets</MenuItem>
 							<MenuItem onClick={handleNavMenuClose} component={Link} to="/blog">Blog</MenuItem>
-							<MenuItem onClick={handleNavMenuClose} component={Link} to="/avis">Avis</MenuItem>
+							<MenuItem onClick={handleNavMenuClose} component={Link} to="/lesAvis">Avis</MenuItem>
 							<MenuItem onClick={handleNavMenuClose} component={Link} to="/apropos">A propos</MenuItem>
 							<MenuItem onClick={handleNavMenuClose} component={Link} to="/contact">Contact</MenuItem>
 						</Menu>
-						{user && (
+						{user && user.isAdmin && (
 							<>
-								<IconButton  onClick={handleProfileMenuClick}>
+								<IconButton onClick={handleProfileMenuClick}>
 									<Avatar
 										style={{ width: "30px", height: '30px' }}
 										alt="Profile Picture"
@@ -113,9 +118,7 @@ const Header = () => {
 									open={Boolean(profileAnchorEl)}
 									onClose={handleProfileMenuClose}
 								>
-									<MenuItem onClick={handleLogout}>
-										Déconnexion
-									</MenuItem>
+									<MenuItem onClick={handleLogout}>Déconnexion</MenuItem>
 								</Menu>
 							</>
 						)}
@@ -125,7 +128,7 @@ const Header = () => {
 						<Tabs
 							value={value}
 							onChange={handleChange}
-							textColor= 'var(--primary-contrastText)'
+							textColor='var(--primary-contrastText)'
 							centered
 							sx={{
 								'& .MuiTabs-indicator': {
@@ -143,9 +146,9 @@ const Header = () => {
 						>
 							<Tab label="Accueil" component={Link} to="/" />
 							<Tab label="Galeries" component={Link} to="/galeries" />
-							<Tab label="Projets" component={Link} to="/projets" />
+							<Tab label="Projets" component={Link} to="/lesProjets" />
 							<Tab label="Blog" component={Link} to="/blog" />
-							<Tab label="Avis" component={Link} to="/avis" />
+							<Tab label="Avis" component={Link} to="/lesAvis" />
 							<Tab label="A propos" component={Link} to="/apropos" />
 							<Tab label="Contact" component={Link} to="/contact" />
 						</Tabs>
@@ -163,9 +166,7 @@ const Header = () => {
 									open={Boolean(profileAnchorEl)}
 									onClose={handleProfileMenuClose}
 								>
-									<MenuItem onClick={handleLogout}>
-										Déconnexion
-									</MenuItem>
+									<MenuItem onClick={handleLogout}>Déconnexion</MenuItem>
 								</Menu>
 							</>
 						)}
@@ -177,3 +178,5 @@ const Header = () => {
 };
 
 export default Header;
+
+

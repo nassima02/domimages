@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import {Outlet} from 'react-router-dom';
 import Header from "./header.jsx";
 import Footer from "./footer.jsx";
 
@@ -12,8 +12,8 @@ function Template() {
 			overflow: 'hidden',
 		}}>
 			<Header/>
-			<main style={{ paddingTop: '104px' }}>
-				<Outlet />
+			<main style={{paddingTop: '104px'}}>
+				<Outlet/>
 				{/**Utilisation du composant Outlet pour rendre les routes enfants. */}
 			</main>
 			<Footer/>

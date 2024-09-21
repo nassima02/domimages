@@ -6,9 +6,7 @@ import AvisList from './avisList';
 const AvisPage = () => {
 	const [avis, setAvis] = useState([]);
 	const [error, setError] = useState(null);
-
-// Utilisation des variables d'environnement avec Vite
-	const apiUrl = import.meta.env.VITE_API_URL;
+	const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
 
 	useEffect(() => {
 		fetch(`${apiUrl}/avis`)
@@ -26,7 +24,7 @@ const AvisPage = () => {
 	}, []);
 
 	const handleAddAvis = (newAvis) => {
-		fetch(`${apiUrl}/newAvis`, {
+		fetch(`${apiUrl}/Avis`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -67,7 +65,6 @@ const AvisPage = () => {
 					return response.json();
 				})
 				.then(newReply => {
-					console.log('Reply submitted successfully:', newReply);
 					setAvis(prevAvis =>
 						prevAvis.map(a => {
 							if (a.id === commentId) {

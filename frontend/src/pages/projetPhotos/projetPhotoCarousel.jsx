@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import { useEffect, useRef, useState } from 'react';
-import { Dialog, DialogContent, IconButton, Typography, useTheme } from '@mui/material';
+import {useEffect, useRef, useState} from 'react';
+import {Dialog, DialogContent, IconButton, Typography, useTheme} from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import { styled } from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close.js";
 
 // Style des boutons de navigation du carousel
-const StyledNavigateIcon = styled('div')(({ theme }) => ({
+const StyledNavigateIcon = styled('div')(({theme}) => ({
 	fontSize: 48,
 	color: 'var(--primary-contrastText)',
 	backgroundColor: 'transparent', // Fond transparent par défaut
@@ -27,8 +27,8 @@ const StyledNavigateIcon = styled('div')(({ theme }) => ({
 	},
 }));
 
-const ProjetPhotoCarousel = ({ images, selectedIndex, handlePrev, handleNext, handleClose }) => {
-	const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+const ProjetPhotoCarousel = ({images, selectedIndex, handlePrev, handleNext, handleClose}) => {
+	const [imageSize, setImageSize] = useState({width: 0, height: 0});
 	const imageRef = useRef(null);
 	const theme = useTheme();
 	const apiUrl = import.meta.env.VITE_API_URL; // Utilisation des variables d'environnement avec Vite
@@ -36,9 +36,10 @@ const ProjetPhotoCarousel = ({ images, selectedIndex, handlePrev, handleNext, ha
 	// Récupération des images à afficher dans le carousel
 	useEffect(() => {
 		const img = new Image();
-		img.src = `${apiUrl}${images[selectedIndex].image_photo}?w=600&auto=format`;
+
+		img.src = `${apiUrl}/uploads/${images[selectedIndex].image_photo}`;
 		img.onload = () => {
-			setImageSize({ width: img.width, height: img.height });
+			setImageSize({width: img.width, height: img.height});
 		};
 	}, [selectedIndex, images]);
 
@@ -69,7 +70,7 @@ const ProjetPhotoCarousel = ({ images, selectedIndex, handlePrev, handleNext, ha
 					},
 				}}
 			>
-				<CloseIcon />
+				<CloseIcon/>
 			</IconButton>
 
 			{/* Flèche de navigation précédente */}
@@ -122,9 +123,10 @@ const ProjetPhotoCarousel = ({ images, selectedIndex, handlePrev, handleNext, ha
 						alignItems: 'center',      // Centre verticalement
 					}}
 				>
+
 					<img
 						ref={imageRef}
-						src={`${apiUrl}${images[selectedIndex].image_photo}?w=600&auto=format`}
+						src={`${apiUrl}/uploads/${images[selectedIndex].image_photo}?w=600&auto=format`}
 						alt={images[selectedIndex].image_title}
 						style={{
 							maxWidth: '100%',

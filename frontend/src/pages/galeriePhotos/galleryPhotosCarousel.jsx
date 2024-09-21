@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import { Dialog, DialogContent, IconButton, Typography, useTheme } from '@mui/material';
+import {Dialog, DialogContent, IconButton, Typography, useTheme} from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import { styled } from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close.js";
 
 // Style des boutons de navigation du carousel
-const StyledNavigateIcon = styled('div')(({ theme }) => ({
+const StyledNavigateIcon = styled('div')(({theme}) => ({
 	fontSize: 48,
 	color: 'var(--primary-contrastText)',
 	backgroundColor: 'transparent', // Fond transparent par défaut
@@ -27,8 +27,8 @@ const StyledNavigateIcon = styled('div')(({ theme }) => ({
 	},
 }));
 
-const GalleryPhotosCarousel = ({ photos, selectedIndex, handlePrev, handleNext, handleClose }) => {
-	const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+const GalleryPhotosCarousel = ({photos, selectedIndex, handlePrev, handleNext, handleClose}) => {
+	const [imageSize, setImageSize] = useState({width: 0, height: 0});
 	const imageRef = useRef(null);
 	const theme = useTheme();
 	const apiUrl = import.meta.env.VITE_API_URL; // Utilisation des variables d'environnement avec Vite
@@ -36,9 +36,10 @@ const GalleryPhotosCarousel = ({ photos, selectedIndex, handlePrev, handleNext, 
 	// Récupération des images à afficher dans le carousel
 	useEffect(() => {
 		const img = new Image();
-		img.src = `${apiUrl}${photos[selectedIndex].photo_image}?w=600&auto=format`;
+		img.src = `${apiUrl}/uploads/${photos[selectedIndex].photo_image}`;
+
 		img.onload = () => {
-			setImageSize({ width: img.width, height: img.height });
+			setImageSize({width: img.width, height: img.height});
 		};
 	}, [selectedIndex, photos]);
 
@@ -69,7 +70,7 @@ const GalleryPhotosCarousel = ({ photos, selectedIndex, handlePrev, handleNext, 
 					},
 				}}
 			>
-				<CloseIcon />
+				<CloseIcon/>
 			</IconButton>
 
 			{/* Flèche de navigation précédente */}
@@ -124,7 +125,7 @@ const GalleryPhotosCarousel = ({ photos, selectedIndex, handlePrev, handleNext, 
 				>
 					<img
 						ref={imageRef}
-						src={`${apiUrl}${photos[selectedIndex].photo_image}?w=600&auto=format`}
+						src={photos[selectedIndex].photo_image}
 						alt={photos[selectedIndex].photo_title}
 						style={{
 							maxWidth: '100%',
@@ -170,3 +171,4 @@ GalleryPhotosCarousel.propTypes = {
 };
 
 export default GalleryPhotosCarousel;
+

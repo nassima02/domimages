@@ -54,7 +54,7 @@ const ArticleForm = ({ onSubmit, editingLink, setEditingLink, initialData }) => 
 	};
 
 	return (
-		<form onSubmit={handleSubmit} style={{ marginBottom: '40px'}}>
+		<form onSubmit={handleSubmit} style={{marginBottom: '40px'}}>
 			<Typography variant="h2" component="h2">
 				{editingLink ? 'Modifier un article' : 'Ajouter un article'}
 			</Typography>

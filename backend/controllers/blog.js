@@ -18,13 +18,11 @@ exports.addArticle = (req, res) => {
 		const query = 'INSERT INTO articles (title, url, image, description, created_at) VALUES (?, ?, ?, ?, NOW())';
 		db.query(query, [title, url, image, description], (err, result) => {
 			if (err) {
-				console.error('Erreur lors de l\'ajout de l\'article:', err);
 				return res.status(500).json({ message: 'Erreur de base de données', error: err.message });
 			}
 			res.status(201).json({ message: 'Article ajouté avec succès', articleId: result.insertId });
 		});
 	} catch (err) {
-		console.error('Erreur lors de l\'ajout de l\'article:', err);
 		res.status(500).json({ message: 'Erreur lors de l\'ajout de l\'article', error: err.message });
 	}
 };
@@ -36,7 +34,6 @@ exports.getArticles = (req, res) => {
 	const query = 'SELECT * FROM articles ORDER BY created_at DESC';
 	db.query(query, (err, results) => {
 		if (err) {
-			console.error('Erreur lors de la récupération des articles:', err);
 			return res.status(500).json({ message: 'Erreur de base de données', error: err.message });
 		}
 		res.status(200).json(results);
@@ -55,7 +52,6 @@ exports.updateArticle = (req, res) => {
 	const selectQuery = 'SELECT image FROM articles WHERE article_id = ?';
 	db.query(selectQuery, [articleId], (err, results) => {
 		if (err) {
-			console.error('Erreur lors de la récupération de l\'ancienne image de l\'article:', err);
 			return res.status(500).json({ message: 'Erreur lors de la récupération de l\'ancienne image de l\'article', error: err.message });
 		}
 
@@ -73,7 +69,6 @@ exports.updateArticle = (req, res) => {
         `;
 		db.query(updateQuery, [title, description, newImage, articleId], (err, result) => {
 			if (err) {
-				console.error('Erreur lors de la mise à jour de l\'article:', err);
 				return res.status(500).json({ message: 'Erreur de base de données', error: err.message });
 			}
 
@@ -88,7 +83,6 @@ exports.updateArticle = (req, res) => {
 				const oldImagePath = path.join(__dirname, '..', oldImage);
 				fs.unlink(oldImagePath, (err) => {
 					if (err) {
-						console.error('Erreur lors de la suppression de l\'ancienne image:', err);
 						return res.status(500).json({ message: 'Erreur lors de la suppression de l\'ancienne image', error: err.message });
 					}
 					console.log('Ancienne image supprimée avec succès:', oldImagePath);
@@ -109,7 +103,6 @@ exports.deleteArticle = (req, res) => {
 	const getImageQuery = 'SELECT image FROM articles WHERE article_id = ?';
 	db.query(getImageQuery, [articleId], (err, results) => {
 		if (err) {
-			console.error('Erreur lors de la récupération de l\'image:', err);
 			return res.status(500).json({ message: 'Erreur de base de données', error: err.message });
 		}
 
@@ -119,7 +112,6 @@ exports.deleteArticle = (req, res) => {
 		const deleteQuery = 'DELETE FROM articles WHERE article_id = ?';
 		db.query(deleteQuery, [articleId], (err, result) => {
 			if (err) {
-				console.error('Erreur lors de la suppression de l\'article:', err);
 				return res.status(500).json({ message: 'Erreur de base de données', error: err.message });
 			}
 

@@ -5,8 +5,8 @@ import Card from "../../components/card.jsx";
 export default function CategoryCards({ categories, onCategoryClick }) {
 
 	return (
-		<Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', minWidth: 300, width: '100%',  pt: 2, pb: 2 }}>
-			{categories.map((categorie) => (
+		<Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', width: '100%',  pt: 2, pb: 2 }}>
+				{categories.map((categorie) => (
 				<Card key={categorie.category_id} id={categorie.category_id} title={categorie.category_title} image={categorie.category_image} onClick={onCategoryClick}/>
 			))}
 		</Box>

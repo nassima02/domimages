@@ -133,7 +133,7 @@ exports.deleteAvis = (req, res) => {
 			}
 
 			// Si tout est supprimé avec succès
-			res.status(204).send(); // 204 No Content signifie que la requête a été traitée avec succès mais qu'il n'y a aucun contenu à renvoyer.
+			res.status(204).send();
 		});
 	});
 };
@@ -153,7 +153,6 @@ exports.deleteReply = (req, res) => {
 			return res.status(500).send('Error deleting reply');
 		}
 
-		// Vérifier si la suppression a affecté une ligne (c'est-à-dire si la réponse existait)
 		if (result.affectedRows === 0) {
 			return res.status(404).send('Reply not found'); // Si aucune ligne n'est affectée, retourner une erreur 404
 		}

@@ -38,7 +38,11 @@ export default function AddDialog({ open, onClose, titles, fields, imagePreview,
 				<label htmlFor="raised-button-file">
 					{imagePreview ? (
 						<div style={{ marginTop: '10px' }}>
-							<img src={imagePreview} alt="Prévisualisation" style={{ width: '100%', height: 'auto' }} />
+							<img
+								src={imagePreview}  // <-- Assurez-vous que l'URL est correcte
+								alt="Prévisualisation"
+								style={{ width: '100%', height: 'auto' }}
+							/>
 						</div>
 					) : (
 						<div style={{
@@ -72,9 +76,10 @@ AddDialog.propTypes = {
 	onClose: PropTypes.func.isRequired,
 	titles: PropTypes.string.isRequired,
 	fields: PropTypes.array.isRequired,
-	imagePreview: PropTypes.string,
+	imagePreview: PropTypes.string,  // imagePreview doit maintenant accepter la miniature
 	onFieldChange: PropTypes.func.isRequired,
 	onImageChange: PropTypes.func.isRequired,
 	onSubmit: PropTypes.func.isRequired,
 	showDescription: PropTypes.bool.isRequired,
 };
+

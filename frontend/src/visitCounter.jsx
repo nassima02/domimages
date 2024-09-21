@@ -1,7 +1,7 @@
-import { useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {Box, Typography} from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import {useTheme} from '@mui/material/styles';
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 function VisitCounter() {

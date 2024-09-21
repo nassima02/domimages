@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 import Slider from 'react-slick';
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {Box, Typography, useMediaQuery, useTheme} from '@mui/material';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -59,7 +59,6 @@ function Accueil() {
 				textAlign: 'center',
 				margin: 'auto',
 				paddingTop: '30px!important',
-			//	overflow: isSmallScreen ? 'hidden' : 'auto', // Empêche le scroll sur mobile
 			}}
 		>
 			{photos.length > 0 ? (
@@ -76,14 +75,14 @@ function Accueil() {
 								style={{
 									height: isSmallScreen ? 'auto' : '900px',
 									width: '100%',
-									objectFit: 'contain', // Afficher l'image en entier sans la déformer
+									objectFit: 'contain',
 								}}
 							/>
 						</Box>
 					))}
 				</Slider>
 			) : (
-				<Typography variant="h6" sx={{ color: '#fff' }}>
+				<Typography variant="h6" sx={{color: '#fff'}}>
 					Chargement des photos...
 				</Typography>
 			)}

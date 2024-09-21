@@ -1,13 +1,13 @@
-import { useForm } from 'react-hook-form';
-import { ToastContainer, toast } from 'react-toastify';
+import {useForm} from 'react-hook-form';
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { TextField, Button, Container, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import {TextField, Button, Container, Typography} from '@mui/material';
+import {useEffect, useState} from 'react';
 
-const SITE_KEY_RECAPTCHA = '6LdoZC8qAAAAAKDhC6XQ69t1xR9XAxO3tsPmxRNj';
+const SITE_KEY_RECAPTCHA = '6LdUBjQqAAAAAImNcNTAynI7c6Y2t9fEEbZAtO0H';
 
 const Contact = () => {
-	const { register, handleSubmit, formState: { errors }, reset, watch } = useForm();
+	const {register, handleSubmit, formState: {errors}, reset, watch} = useForm();
 	const [isDisabled, setIsDisabled] = useState(true);
 	const [recaptchaLoaded, setRecaptchaLoaded] = useState(false);
 	const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
@@ -76,15 +76,15 @@ const Contact = () => {
 			alignItems: 'center',
 			padding: '30px 0 0 0',
 		}}>
-			<Typography variant="h1" component="h1" sx={{textWrap: 'nowrap'}} >
+			<Typography variant="h1" component="h1" sx={{textWrap: 'nowrap'}}>
 				ME CONTACTER
 			</Typography>
 
-			<form  onSubmit={handleSubmit(handleFormSubmit)}>
+			<form onSubmit={handleSubmit(handleFormSubmit)}>
 				<Typography variant="body1">
-					Vous souhaitez prendre contact, n&apos;hésitez pas, laissez moi un message en utilisant le
-					formulaire ci-dessous, ou directement a l&apos;adresse
-					mail: <strong>domimages@alwaysdata.net</strong> <br/><br/>
+					Vous souhaitez prendre contact ? N&apos;hésitez pas à me laisser un message en utilisant le
+					formulaire ci-dessous ou directement à l&apos;adresse e-mail suivante:
+					<strong> domimages@alwaysdata.net</strong> <br/><br/>
 					Je vous répondrai rapidement.
 				</Typography>
 				<TextField
@@ -139,14 +139,15 @@ const Contact = () => {
 					sx={{
 						backgroundColor: 'var(--secondary-main)',
 						color: 'var(--primary-main)',
-						fontWeight:'bold',
-						mb:3,
-						mt:2,
+						fontWeight: 'bold',
+						mb: 3,
+						mt: 2,
 						'&:disabled': {
 							backgroundColor: 'var(--primary-main)',
 							color: 'var(--secondary-main)',
 						},
-						'&:hover': {backgroundColor: 'var(--secondary-main)',
+						'&:hover': {
+							backgroundColor: 'var(--secondary-main)',
 							color: 'var(--primary-main)'
 						},
 					}}

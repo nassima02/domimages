@@ -1,6 +1,6 @@
 import {useContext, useState} from 'react';
-import { useParams } from "react-router-dom";
-import { styled, useTheme } from '@mui/material/styles';
+import {useParams} from "react-router-dom";
+import {styled, useTheme} from '@mui/material/styles';
 import {Box, Divider, Tooltip, Typography, useMediaQuery} from '@mui/material';
 import Masonry from '@mui/lab/Masonry';
 import EditNoteIcon from '@mui/icons-material/EditNote';
@@ -37,13 +37,13 @@ const ProjetsPhotos = () => {
 		spacing = 2;
 	}
 
-	const { projetId } = useParams();
+	const {projetId} = useParams();
 	const [carouselOpen, setCarouselOpen] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [openGalleryDialog, setOpenGalleryDialog] = useState(false);
 	const [projet, fetchGallery, images] = useGallery(projetId);
-	const { user } = useContext(AuthContext); // Accédez à l'utilisateur actuel
-	const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
+	const {user} = useContext(AuthContext); // Accédez à l'utilisateur actuel
+	const apiUrl = import.meta.env.VITE_API_URL; // Utilisation des variables d'environnement avec Vite
 
 	const handleOpenGalleryDialog = () => {
 		setOpenGalleryDialog(true);
@@ -70,6 +70,7 @@ const ProjetsPhotos = () => {
 		setSelectedIndex(prevIndex => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
 	};
 
+
 	return (
 		<Box
 			sx={{
@@ -83,22 +84,22 @@ const ProjetsPhotos = () => {
 				minHeight: 829,
 			}}
 		>
-			{projet && (
+			{projet && projet.projet_title && (
 				<Box
 					sx={{
 						position: 'relative',
 						padding: theme.spacing(2),
-						// background: 'var(--primary-main)',
 						marginBottom: theme.spacing(4),
 						textAlign: 'center',
-						width:'100%'
+						width: '100%',
+						borderRadius: 2
 					}}
 				>
-					<Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mb: 2 }}>
-						<Typography variant="h1" component="h1" sx={{ color: 'var(--primary-main)', mb:0 }}>
+					<Box sx={{display: 'flex', gap: 2, alignItems: 'center', mb: 2}}>
+						<Typography variant="h1" component="h1" sx={{color: 'var(--primary-main)', mb: 0}}>
 							{projet.projet_title}
 						</Typography>
-						{user && user.isAdmin && ( // Vérifiez si l'utilisateur est admin avant d'afficher l'icône
+						{user && user.isAdmin && (
 							<Tooltip title="Ajouter une photo">
 								<EditNoteIcon
 									sx={{
@@ -115,7 +116,7 @@ const ProjetsPhotos = () => {
 							</Tooltip>
 						)}
 					</Box>
-					<Typography variant="body1" component="p" sx={{ color: 'var(--primary-main)', textAlign: 'left'}}>
+					<Typography variant="body1" component="p" sx={{color: 'var(--primary-main)', textAlign: 'left'}}>
 						{projet.projet_description}
 					</Typography>
 					<Divider
@@ -126,7 +127,6 @@ const ProjetsPhotos = () => {
 							mt: '1.5rem',
 						}}
 					/>
-
 				</Box>
 			)}
 
@@ -135,9 +135,9 @@ const ProjetsPhotos = () => {
 					images.map((item, index) => (
 						<HoverDiv key={index} onClick={() => openCarousel(index)}>
 							<img
-								srcSet={`${apiUrl}${item.image_photo}?w=162&auto=format&dpr=2 2x`}
-								src={`${apiUrl}${item.image_photo}?w=162&auto=format`}
-								alt={item.title}
+								srcSet={`${apiUrl}/thumbnails/${item.image_photo}?w=162&auto=format&dpr=2 2x`}
+								src={`${apiUrl}/thumbnails/${item.image_photo}?w=162&auto=format`}
+								alt={item.image_title}
 								loading="lazy"
 								style={{
 									display: 'block',
@@ -148,7 +148,7 @@ const ProjetsPhotos = () => {
 						</HoverDiv>
 					))
 				) : (
-					<Typography variant="body1" component="p" >
+					<Typography variant="body1" component="p">
 						Aucune photo trouvée dans ce projet.
 					</Typography>
 				)}
@@ -158,12 +158,25 @@ const ProjetsPhotos = () => {
 				open={openGalleryDialog}
 				onClose={handleCloseGalleryDialog}
 				title={"Photos"}
-				images={images}
+				images={images.map((image) => {
+					return {
+						...image,
+						photo: `${apiUrl}/thumbnails/${image.image_photo}` // image miniatures ici
+					};
+				})}
 				refreshGallery={fetchGallery}
 			/>
+
 			{carouselOpen && (
 				<PhotoCarousel
-					images={images}
+					images={images.map((image) => {
+
+						const fullImageUrl = `${apiUrl}/uploads/${image.image_photo}?w=162&auto=format`;
+						return {
+							...image,
+							photo: fullImageUrl, // 'image taille réelle dans le carrousel
+						};
+					})}
 					selectedIndex={selectedIndex}
 					handlePrev={handlePrev}
 					handleNext={handleNext}
@@ -175,3 +188,4 @@ const ProjetsPhotos = () => {
 };
 
 export default ProjetsPhotos;
+

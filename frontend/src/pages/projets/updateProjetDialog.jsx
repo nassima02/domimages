@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import axios from "axios";
 import PropTypes from "prop-types";
 import AddDialog from "../../components/addDialog.jsx";
 
-export default function UpdateProjetDialog({ open, onClose, titles, showDescription, refreshProjets, projetToEdit }) {
+export default function UpdateProjetDialog({open, onClose, titles, showDescription, refreshProjets, projetToEdit}) {
 	const [title, setTitle] = useState('');
 	const [image, setImage] = useState(null);
 	const [preview, setPreview] = useState(null);
@@ -57,9 +57,8 @@ export default function UpdateProjetDialog({ open, onClose, titles, showDescript
 		const url = projetToEdit ? `${apiUrl}/projets/${projetToEdit.projet_id}` : `${apiUrl}/projets`;
 		const method = projetToEdit ? 'put' : 'post';
 
-		axios({ method, url, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
+		axios({method, url, data: formData, headers: {'Content-Type': 'multipart/form-data'}})
 			.then(res => {
-				console.log('Réponse du serveur:', res.data);
 				if (res.data.message === (projetToEdit ? 'Projet modifiée avec succès' : 'Projet ajoutée avec succès')) {
 					resetForm();
 					onClose();
@@ -73,11 +72,11 @@ export default function UpdateProjetDialog({ open, onClose, titles, showDescript
 			});
 	};
 	const fields = [
-		{ label: "Titre", type: "text", value: title }
+		{label: "Titre", type: "text", value: title}
 	];
 
 	if (showDescription) {
-		fields.push({ label: "Description", type: "text", value: description, multiline: true, rows: 4 });
+		fields.push({label: "Description", type: "text", value: description, multiline: true, rows: 4});
 	}
 	return (
 		<AddDialog

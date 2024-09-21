@@ -12,7 +12,8 @@ import BlogPage from "./pages/blog/blogPage.jsx";
 import Projets from "./pages/projets/projets.jsx";
 import ProjetsPhotos from "./pages/projetPhotos/projetsPhotos.jsx";
 import Galeries from "./pages/galeries/galeries.jsx";
-import PhotosGallery from "./pages/galeriePhotos/photosGallery.jsx";
+import PhotosGallery from "./pages/galeriePhotos/galleryPhotos.jsx";
+
 
 export const router = createBrowserRouter([
 	{
@@ -44,7 +45,7 @@ export const router = createBrowserRouter([
 				element: <PhotosGallery  />,
 			},
 			{
-				path: '/projets',
+				path: '/lesProjets',
 				element: <Projets />,
 			},
 			{
@@ -56,7 +57,7 @@ export const router = createBrowserRouter([
 				element: <BlogPage />,
 			},
 			{
-				path: '/avis',
+				path: '/lesAvis',
 				element: <AvisPage />,
 			},
 			{

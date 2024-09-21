@@ -57,7 +57,7 @@ export default function ArticleCard({ article, handleUpdateArticle, handleDelete
 					objectFit: 'fill',
 					maxWidth: {
 						xs: '100%', // Prend toute la largeur sur mobile
-						md: '30%',  // Prend 35% de la largeur sur les écrans moyens et plus
+						md: '30%',  // Prend 30% de la largeur sur les écrans moyens et plus
 					},
 					height: {
 						xs: '50%', // Hauteur de l'image sur mobile
@@ -91,7 +91,7 @@ export default function ArticleCard({ article, handleUpdateArticle, handleDelete
 								</MenuItem>
 								<MenuItem
 									onClick={() => { handleDeleteArticle(article.article_id); handleClose(); }}
-									style={{ fontSize: '13px' }} // Taille de la police réduite
+									style={{ fontSize: '13px' }}
 								>
 									Supprimer
 								</MenuItem>
@@ -124,14 +124,16 @@ export default function ArticleCard({ article, handleUpdateArticle, handleDelete
 						{article.description}
 						{article.url && (
 							<>
-								<br />
-								<a href={article.url} target="_blank" rel="noopener noreferrer">
-									{article.url}
+								<br /> {/* Saut de ligne pour l'espace entre la description et le lien */}
+								<a href={article.url} target="_blank" rel="noopener noreferrer" style={{ marginTop: '8px', display: 'inline-block' }}>
+									En savoir plus
 								</a>
 							</>
 						)}
 					</Typography>
 				</CardContent>
+
+
 			</div>
 		</Card>
 	);

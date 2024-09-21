@@ -25,9 +25,13 @@ app.use(cors());
 app.use(express.static('public'));
 app.use(express.static('files'));
 
-/***************************************************************
-	configuration de Multer pour les téléchargements de fichiers
- ***************************************************************/
+/***************************************************
+	Configure multer for file uploads
+ ***************************************************/
+// Servir les fichiers statiques
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/thumbnails', express.static(path.join(__dirname, 'thumbnails')));
+
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, 'uploads/');
@@ -38,7 +42,6 @@ const storage = multer.diskStorage({
 	}
 });
 const upload = multer({ storage: storage });
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));// Servir les fichiers statiques
 
 /***************************************************
 	Connexion à la base de données
@@ -108,7 +111,7 @@ app.put('/articles/:articleId', upload.single('image'), updateArticle); // Route
 /*******************************************************************
      gestion des avis des utilisateurs
  ******************************************************************/
-app.post('/newAvis', addAvis);// route pour ajouter un avis
+app.post('/avis', addAvis);// route pour ajouter un avis
 app.get('/avis', allAvis);// route pour récupérer tous les avis
 app.post('/avis/:id/reply', answerAvis);// route pour répondre à un avis
 app.delete('/avis/:id', deleteAvis);// route pour supprimer un avis
@@ -120,7 +123,9 @@ app.delete('/avis/:commentId/reply/:replyId', deleteReply);// route pour supprim
 app.get('/totalVisits',  allVisits);// Route pour récupérer le nombre de visites
 app.post('/incrementVisit', compterVisits);// Route pour incrémenter le nombre de visites
 
-
+app.get('*', (req, res)=>{
+	res.sendFile(path.resolve('public/index.html'));
+})
 
 /***************************************************************/
 module.exports = app;

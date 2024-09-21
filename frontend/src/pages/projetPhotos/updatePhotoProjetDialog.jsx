@@ -1,20 +1,20 @@
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
+import {useState, useEffect} from 'react';
+import {Dialog, DialogContent, DialogTitle, TextField, Typography} from '@mui/material';
 import DialogActions from "@mui/material/DialogActions";
 import Buttons from "../../components/buttons.jsx";
 
-export default function UpdatePhotoProjetDialog({ open, onClose, title, refreshGallery, photoToEdit }) {
+export default function UpdatePhotoProjetDialog({open, onClose, title, refreshGallery, photoToEdit}) {
 	const [photoTitle, setPhotoTitle] = useState('');
 	const [image, setImage] = useState(null);
 	const [preview, setPreview] = useState(null);
-	const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
+	const apiUrl = import.meta.env.VITE_API_URL; // Utilisation des variables d'environnement avec Vite
 
 	useEffect(() => {
 		if (photoToEdit) {
 			setPhotoTitle(photoToEdit.image_title);
-			setPreview(`${apiUrl}${photoToEdit.image_photo}`);
+			setPreview(`${apiUrl}/thumbnails/${photoToEdit.image_photo}`); // Utilisez la miniature si disponible
 		} else {
 			resetForm();
 		}
@@ -36,37 +36,46 @@ export default function UpdatePhotoProjetDialog({ open, onClose, title, refreshG
 		setPhotoTitle(e.target.value);
 	};
 
-	const handleSubmit = (file, title) => {
+	const handleSubmit = () => {
+		if (!image && !photoToEdit) {
+			console.error('Aucune image sélectionnée.');
+			return;
+		}
+
 		const formData = new FormData();
-		formData.append('image', file);
-		// Récupérer projetId à partir de l'URL et l'ajouter au formData
+		if (image) {
+			formData.append('image', image);
+		}
 		const projetId = window.location.pathname.split('/').pop();
 		formData.append('projetId', projetId);
-		formData.append('title', title);
+		formData.append('title', photoTitle);
 
 		const url = photoToEdit ? `${apiUrl}/images/${photoToEdit.image_id}` : `${apiUrl}/images`;
 		const method = photoToEdit ? 'put' : 'post';
+		const expectedSuccessMessage = photoToEdit ? 'Projet modifié avec succès' : 'Photo ajoutée avec succès';
 
-		axios({ method, url, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
+		axios({method, url, data: formData, headers: {'Content-Type': 'multipart/form-data'}})
 			.then(res => {
-				console.log('Réponse du serveur:', res.data);
-				if (res.data.message === (photoToEdit ? 'Photo modifiée avec succès' : 'Photo ajoutée avec succès')) {
-					resetForm();// Réinitialiser le formulaire après la soumission
-					onClose();
-					refreshGallery(); // Actualiser la liste des projets
+				if (res.data.message === expectedSuccessMessage) {
+					resetForm();
+					if (onClose) {
+						onClose();
+					}
+					if (refreshGallery) {
+						refreshGallery();
+					}
 				} else {
-					console.error('Erreur lors de l\'ajout/modification de la photo:', res.data.error);
+					console.error('Erreur lors de l\'ajout/modification de la photo:', res.data.error || 'Message d\'erreur non défini');
 				}
 			})
 			.catch(error => {
-				console.error('Erreur Axios:', error);
+				console.error('Erreur Axios:', error.response ? error.response.data : error.message);
 			});
 	};
 
 	const handleClose = () => {
 		resetForm();
 		onClose();
-		refreshGallery();
 	};
 
 	const resetForm = () => {
@@ -77,7 +86,7 @@ export default function UpdatePhotoProjetDialog({ open, onClose, title, refreshG
 
 	return (
 		<Dialog open={open} onClose={handleClose} aria-labelledby="draggable-dialog-title">
-			<DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+			<DialogTitle style={{cursor: 'move'}} id="draggable-dialog-title">
 				{title}
 			</DialogTitle>
 			<DialogContent>
@@ -92,7 +101,7 @@ export default function UpdatePhotoProjetDialog({ open, onClose, title, refreshG
 				/>
 				<input
 					accept="image/*"
-					style={{ display: 'none' }}
+					style={{display: 'none'}}
 					id="raised-button-file"
 					type="file"
 					onChange={handleImageChange}
@@ -110,20 +119,24 @@ export default function UpdatePhotoProjetDialog({ open, onClose, title, refreshG
 						textAlign: 'center',
 					}}>
 						{preview ? (
-							<img src={preview} alt="Prévisualisation" style={{ width: '100%', height: 'auto' }} />
+							<img src={preview} alt="Prévisualisation" style={{width: '100%', height: 'auto'}}/>
 						) : (
-							<>
-								<img src="/images/telecharger-image.png" alt="Ajouter une photo" style={{ width: '50px', height: '50px', marginBottom: '10px' }} />
-								<Typography variant="body1" style={{ color: '#555' }}>+ Ajouter photo</Typography>
-								<Typography variant="caption" style={{ color: '#999' }}>jpg, png : 4mo max</Typography>
-							</>
+							photoToEdit && (
+								<img src={`${apiUrl}/thumbnails/${photoToEdit.image_photo}`}
+								     alt="Image actuelle" // Vérifie ici aussi
+								     style={{width: '100%', height: 'auto'}}/>
+							)
 						)}
+
+						<Typography variant="body1"
+						            style={{color: '#555'}}>{preview ? '+ Modifier photo' : '+ Ajouter photo'}</Typography>
+						<Typography variant="caption" style={{color: '#999'}}>jpg, png : 4mo max</Typography>
 					</div>
 				</label>
 			</DialogContent>
-			<DialogActions sx={{ display: 'flex', justifyContent: 'center!important' }}>
-				<Buttons text="Annuler" onClick={handleClose} />
-				<Buttons text={photoToEdit ? "Modifier" : "Ajouter"} onClick={() => handleSubmit(image, photoTitle)} />
+			<DialogActions sx={{display: 'flex', justifyContent: 'center!important'}}>
+				<Buttons text="Annuler" onClick={handleClose}/>
+				<Buttons text={photoToEdit ? "Modifier" : "Ajouter"} onClick={handleSubmit}/>
 			</DialogActions>
 		</Dialog>
 	);
@@ -136,3 +149,5 @@ UpdatePhotoProjetDialog.propTypes = {
 	refreshGallery: PropTypes.func.isRequired,
 	photoToEdit: PropTypes.object,
 };
+
+

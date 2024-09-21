@@ -1,10 +1,10 @@
-import  { createContext, useState, useEffect } from 'react';
+import {createContext, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
 
 	const [user, setUser] = useState(null);
 	const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, setUser, updateUser, logout }}>
+		<AuthContext.Provider value={{user, setUser, updateUser, logout}}>
 			{children}
 		</AuthContext.Provider>
 	);

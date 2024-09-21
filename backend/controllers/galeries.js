@@ -20,34 +20,33 @@ exports.showCategories = (req, res) => {
  * Cette fonction permet d'ajouter une nouvelle categories
  * ********************************************************************/
 exports.addCategory = (req, res) => {
-	const { title, description } = req.body;
+	const {title, description} = req.body;
 	const category_image = req.file ? `/uploads/${req.file.filename}` : null;
 
 	const query = 'INSERT INTO categories (category_title, category_image, category_description) VALUES (?, ?, ?)';
 	db.query(query, [title, category_image, description], (err, result) => {
 		if (err) {
-			console.error('Database query failed:', err);
-			return res.status(500).json({ message: 'Erreur de base de données', error: err.message });
+			return res.status(500).json({message: 'Erreur de base de données', error: err.message});
 		}
 		console.log('Insert successful:', result);
-		res.status(201).json({ message: 'Catégorie ajoutée avec succès' });
+		res.status(201).json({message: 'Catégorie ajoutée avec succès'});
 	});
 };
 
 /** *******************************************************************
- * Cette fonction permet de supprimer une catégorie
+ * Cette fonction permet de supprimer une catégorie et ses photos
  * ********************************************************************/
 exports.deleteCategory = (req, res) => {
 	const categoryId = req.params.categoryId;
-
-	console.log(`Tentative de suppression de la catégorie avec ID: ${categoryId}`);
 
 	// Étape 1: Récupérer les photos associées à la catégorie
 	const selectPhotosQuery = 'SELECT photo_image FROM photos WHERE category_id = ?';
 	db.query(selectPhotosQuery, [categoryId], (err, photosResults) => {
 		if (err) {
-			console.error('Erreur lors de la récupération des photos de la catégorie:', err);
-			return res.status(500).json({ message: 'Erreur lors de la récupération des photos de la catégorie', error: err.message });
+				return res.status(500).json({
+				message: 'Erreur lors de la récupération des photos de la catégorie',
+				error: err.message
+			});
 		}
 
 		console.log(`Photos à supprimer: ${photosResults.map(photo => photo.photo_image).join(', ')}`);
@@ -56,8 +55,10 @@ exports.deleteCategory = (req, res) => {
 		const deletePhotosQuery = 'DELETE FROM photos WHERE category_id = ?';
 		db.query(deletePhotosQuery, [categoryId], (err, deletePhotosResult) => {
 			if (err) {
-				console.error('Erreur lors de la suppression des photos de la catégorie:', err);
-				return res.status(500).json({ message: 'Erreur de base de données lors de la suppression des photos', error: err.message });
+					return res.status(500).json({
+					message: 'Erreur de base de données lors de la suppression des photos',
+					error: err.message
+				});
 			}
 
 			console.log(`Photos supprimées de la base de données pour la catégorie ID: ${categoryId}`);
@@ -78,12 +79,14 @@ exports.deleteCategory = (req, res) => {
 			const selectCategoryQuery = 'SELECT category_image FROM categories WHERE category_id = ?';
 			db.query(selectCategoryQuery, [categoryId], (err, categoryResults) => {
 				if (err) {
-					console.error('Erreur lors de la récupération de l\'image de la catégorie:', err);
-					return res.status(500).json({ message: 'Erreur lors de la récupération de l\'image de la catégorie', error: err.message });
+					return res.status(500).json({
+						message: 'Erreur lors de la récupération de l\'image de la catégorie',
+						error: err.message
+					});
 				}
 
 				if (categoryResults.length === 0) {
-					return res.status(404).json({ message: 'Catégorie non trouvée' });
+					return res.status(404).json({message: 'Catégorie non trouvée'});
 				}
 
 				const categoryImage = categoryResults[0].category_image;
@@ -92,12 +95,11 @@ exports.deleteCategory = (req, res) => {
 				const deleteCategoryQuery = 'DELETE FROM categories WHERE category_id = ?';
 				db.query(deleteCategoryQuery, [categoryId], (err, deleteCategoryResult) => {
 					if (err) {
-						console.error('Erreur lors de la suppression de la catégorie:', err);
-						return res.status(500).json({ message: 'Erreur de base de données', error: err.message });
+						return res.status(500).json({message: 'Erreur de base de données', error: err.message});
 					}
 
 					if (deleteCategoryResult.affectedRows === 0) {
-						return res.status(404).json({ message: 'Catégorie non trouvée' });
+						return res.status(404).json({message: 'Catégorie non trouvée'});
 					}
 
 					console.log('Catégorie supprimée avec succès:', deleteCategoryResult);
@@ -107,86 +109,42 @@ exports.deleteCategory = (req, res) => {
 						const categoryImagePath = path.join(__dirname, '..', categoryImage);
 						fs.unlink(categoryImagePath, (err) => {
 							if (err) {
-								console.error('Erreur lors de la suppression de l\'image de la catégorie:', err);
-								return res.status(500).json({ message: 'Erreur lors de la suppression de l\'image de la catégorie', error: err.message });
+								return res.status(500).json({
+									message: 'Erreur lors de la suppression de l\'image de la catégorie',
+									error: err.message
+								});
 							}
 							console.log('Image de la catégorie supprimée avec succès:', categoryImagePath);
 						});
 					}
 
-					res.status(200).json({ message: 'Catégorie et photos associées supprimées avec succès' });
+					res.status(200).json({message: 'Catégorie et photos associées supprimées avec succès'});
 				});
 			});
 		});
 	});
 };
 
-// exports.deleteCategory = (req, res) => {
-// 	const categoryId = req.params.categoryId;
-//
-// 	// Récupérer l'image de la catégorie avant de la supprimer
-// 	const selectQuery = 'SELECT category_image FROM categories WHERE category_id = ?';
-// 	db.query(selectQuery, [categoryId], (err, results) => {
-// 		if (err) {
-// 			console.error('Erreur lors de la récupération de l\'image de la catégorie:', err);
-// 			return res.status(500).json({ message: 'Erreur lors de la récupération de l\'image de la catégorie', error: err.message });
-// 		}
-//
-// 		if (results.length === 0) {
-// 			return res.status(404).json({ message: 'Catégorie non trouvée' });
-// 		}
-//
-// 		const categoryImage = results[0].category_image;
-//
-// 		// Supprimer la catégorie de la base de données
-// 		const deleteQuery = 'DELETE FROM categories WHERE category_id = ?';
-// 		db.query(deleteQuery, [categoryId], (err, result) => {
-// 			if (err) {
-// 				console.error('Erreur lors de la suppression de la catégorie:', err);
-// 				return res.status(500).json({ message: 'Erreur de base de données', error: err.message });
-// 			}
-//
-// 			if (result.affectedRows === 0) {
-// 				return res.status(404).json({ message: 'Catégorie non trouvée' });
-// 			}
-//
-// 			console.log('Catégorie supprimée avec succès:', result);
-//
-// 			// Supprimer l'image associée
-// 			if (categoryImage) {
-// 				const imagePath = path.join(__dirname, '..', categoryImage);
-// 				fs.unlink(imagePath, (err) => {
-// 					if (err) {
-// 						console.error('Erreur lors de la suppression de l\'image de la catégorie:', err);
-// 						return res.status(500).json({ message: 'Erreur lors de la suppression de l\'image de la catégorie', error: err.message });
-// 					}
-// 					console.log('Image de la catégorie supprimée avec succès:', imagePath);
-// 				});
-// 			}
-//
-// 			res.status(200).json({ message: 'Catégorie et image associée supprimées avec succès' });
-// 		});
-// 	});
-// };
-
 /** *******************************************************************
  * Cette fonction permet de modifier une catégorie
  * ********************************************************************/
 exports.updateCategory = (req, res) => {
 	const categoryId = req.params.categoryId;
-	const { title, description } = req.body;
+	const {title, description} = req.body;
 	const newImage = req.file ? `/uploads/${req.file.filename}` : null;
 
 	// Récupérer l'ancienne image avant la mise à jour
 	const selectQuery = 'SELECT category_image FROM categories WHERE category_id = ?';
 	db.query(selectQuery, [categoryId], (err, results) => {
 		if (err) {
-			console.error('Erreur lors de la récupération de l\'ancienne image de la catégorie:', err);
-			return res.status(500).json({ message: 'Erreur lors de la récupération de l\'ancienne image de la catégorie', error: err.message });
+			return res.status(500).json({
+				message: 'Erreur lors de la récupération de l\'ancienne image de la catégorie',
+				error: err.message
+			});
 		}
 
 		if (results.length === 0) {
-			return res.status(404).json({ message: 'Catégorie non trouvée' });
+			return res.status(404).json({message: 'Catégorie non trouvée'});
 		}
 
 		const oldImage = results[0].category_image;
@@ -199,12 +157,11 @@ exports.updateCategory = (req, res) => {
         `;
 		db.query(updateQuery, [title, description, newImage, categoryId], (err, result) => {
 			if (err) {
-				console.error('Erreur lors de la mise à jour de la catégorie:', err);
-				return res.status(500).json({ message: 'Erreur de base de données', error: err.message });
+				return res.status(500).json({message: 'Erreur de base de données', error: err.message});
 			}
 
 			if (result.affectedRows === 0) {
-				return res.status(404).json({ message: 'Catégorie non trouvée' });
+				return res.status(404).json({message: 'Catégorie non trouvée'});
 			}
 
 			console.log('Catégorie modifiée avec succès:', result);
@@ -214,14 +171,16 @@ exports.updateCategory = (req, res) => {
 				const oldImagePath = path.join(__dirname, '..', oldImage);
 				fs.unlink(oldImagePath, (err) => {
 					if (err) {
-						console.error('Erreur lors de la suppression de l\'ancienne image:', err);
-						return res.status(500).json({ message: 'Erreur lors de la suppression de l\'ancienne image', error: err.message });
+						return res.status(500).json({
+							message: 'Erreur lors de la suppression de l\'ancienne image',
+							error: err.message
+						});
 					}
 					console.log('Ancienne image supprimée avec succès:', oldImagePath);
 				});
 			}
 
-			res.status(200).json({ message: 'Catégorie modifiée avec succès' });
+			res.status(200).json({message: 'Catégorie modifiée avec succès'});
 		});
 	});
 };
@@ -247,8 +206,18 @@ exports.showPhotosCategory = (req, res) => {
     `;
 
 	db.query(query, [categoryId], (err, results) => {
-		if (err) throw err;
-		res.json(results);
+		if (err) {
+			return res.status(500).json({
+				message: 'Erreur lors de la récupération des photos du projet',
+				error: err.message
+			});
+		}
+		// Assurez-vous que le chemin de l'image ne contient pas de préfixe supplémentaire
+		const formattedResults = results.map(result => ({
+			...result,
+			photo_image: result.photo_image ? result.photo_image.replace('/uploads/', '') : null // Vérifier si image_photo n'est pas null
+		}));
+		res.json(formattedResults);
 	});
 };
 
@@ -257,17 +226,19 @@ exports.showPhotosCategory = (req, res) => {
  * *************************************************************************************/
 exports.showAllPhotos = (req, res) => {
 	const query = `
-        SELECT 
+        SELECT
             photo_image,
             photo_title
-        FROM 
+        FROM
             photos
     `;
 	db.query(query, (err, results) => {
 		if (err) {
 			console.error('Error fetching photos:', err);
-			return res.status(500).json({ error: 'An error occurred while fetching photos' });
+			return res.status(500).json({error: 'An error occurred while fetching photos'});
 		}
 		res.json(results);
 	});
 };
+
+

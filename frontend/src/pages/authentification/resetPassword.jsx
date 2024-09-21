@@ -6,9 +6,7 @@ export default function ResetPassword() {
 	const [values, setValues] = useState({ email: '' });
 	const [message, setMessage] = useState('');
 	const [error, setError] = useState('');
-
-	// Utilisation des variables d'environnement avec Vite
-	const apiUrl = import.meta.env.VITE_API_URL;
+	const apiUrl = import.meta.env.VITE_API_URL;// Utilisation des variables d'environnement avec Vite
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -26,7 +24,7 @@ export default function ResetPassword() {
 	return (
 
 		<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', textAlign: 'center'}}>
-			<Typography variant="h1" component="h1" sx={{ color: 'var(--secondary-main)', mt: { xs: 2, lg: 8 }}}>
+			<Typography variant="h1" component="h1" sx={{ color: 'var(--primary-light)', mt: { xs: 2, lg: 8 }}}>
 				Réinitialisation du mot de passe
 			</Typography>
 			<Typography
@@ -58,11 +56,10 @@ export default function ResetPassword() {
 						mt:2,
 						color: 'var(--secondary-main)',
 						background: 'var(--primary-main)',
-						border: '1px solid #D19326',
 						fontWeight: 'bold',
 						'&:hover': {
 							background: 'var(--secondary-main)',
-							color: 'white',
+							color: 'var(--primary-main)',
 						},
 					}}>
 						Envoyer

@@ -13,12 +13,10 @@ const theme = createTheme({
             main:'#16202E',
             light:'#223958',// Teinte claire de la couleur principale
             contrastText:'#ffffff' // Couleur du texte contrastant avec `main`
-            // dark:'#16202E',// Teinte foncée de la couleur principale
         },
         secondary: {
             main:'#cdbe8c',
             light:'#E4BF68',// Teinte claire de la couleur principale
-            //   dark:'#E4BF68'// Teinte foncée de la couleur principale
         },
         background: {
             default: '#eaebec',
