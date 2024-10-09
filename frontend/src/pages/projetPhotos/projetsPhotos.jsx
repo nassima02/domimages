@@ -1,47 +1,23 @@
 import {useContext, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {styled, useTheme} from '@mui/material/styles';
-import {Box, Divider, Tooltip, Typography, useMediaQuery} from '@mui/material';
-import Masonry from '@mui/lab/Masonry';
+import { useTheme} from '@mui/material/styles';
+import {Box, CircularProgress, Divider, Tooltip, Typography} from '@mui/material';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import useGallery from "./useProjetsPhotos.jsx";
 import GalleryDialog from "./photoDialog.jsx";
 import {AuthContext} from "../../AuthContext.jsx";
 import PhotoCarousel from './projetPhotoCarousel';
+import '../../index.css';
 
-const HoverDiv = styled('div')({
-	transition: 'transform 0.3s ease-in-out',
-	position: 'relative',
-	cursor: 'pointer',
-	'&:hover': {
-		transform: 'translateY(-5px)',
-	},
-});
 
 const ProjetsPhotos = () => {
 	const theme = useTheme();
-	const isLg = useMediaQuery(theme.breakpoints.up('lg'));
-	const isMd = useMediaQuery(theme.breakpoints.up('md'));
-
-	// Define number of columns based on screen size
-	let columns = 3;
-	let spacing = 2;
-	if (isLg) {
-		columns = 3;
-		spacing = 4;
-	} else if (isMd) {
-		columns = 2;
-		spacing = 3;
-	} else {
-		columns = 1; // Single column for mobile screens
-		spacing = 2;
-	}
-
 	const {projetId} = useParams();
 	const [carouselOpen, setCarouselOpen] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [openGalleryDialog, setOpenGalleryDialog] = useState(false);
 	const [projet, fetchGallery, images] = useGallery(projetId);
+	const [imageLoadedCount, setImageLoadedCount] = useState(0);
 	const {user} = useContext(AuthContext); // Accédez à l'utilisateur actuel
 	const apiUrl = import.meta.env.VITE_API_URL; // Utilisation des variables d'environnement avec Vite
 
@@ -70,7 +46,16 @@ const ProjetsPhotos = () => {
 		setSelectedIndex(prevIndex => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
 	};
 
+	// Transformation des photos pour le composant Gallery
+	const galleryImages = images.map(image => ({
+		src: `${apiUrl}/thumbnails/${image.image_photo}`,
+		width: image.width || 1, // Assurez-vous d'avoir une largeur pour chaque photo
+		height: image.height || 1 // Assurez-vous d'avoir une hauteur pour chaque photo
+	}));
 
+	function imageLoaded() {
+		setImageLoadedCount((count) => ++count);
+	}
 	return (
 		<Box
 			sx={{
@@ -130,29 +115,27 @@ const ProjetsPhotos = () => {
 				</Box>
 			)}
 
-			<Masonry columns={columns} spacing={spacing}>
-				{images.length > 0 ? (
-					images.map((item, index) => (
-						<HoverDiv key={index} onClick={() => openCarousel(index)}>
-							<img
-								srcSet={`${apiUrl}/thumbnails/${item.image_photo}?w=162&auto=format&dpr=2 2x`}
-								src={`${apiUrl}/thumbnails/${item.image_photo}?w=162&auto=format`}
-								alt={item.image_title}
-								loading="lazy"
-								style={{
-									display: 'block',
-									width: '100%',
-									height: 'auto',
-								}}
-							/>
-						</HoverDiv>
-					))
-				) : (
-					<Typography variant="body1" component="p">
-						Aucune photo trouvée dans ce projet.
-					</Typography>
+			<Box className="gallery-container" sx={{ width: '100%' }}>
+				{/* Affichage du spinner tant que toutes les images ne sont pas chargées */}
+				{imageLoadedCount !== galleryImages.length && (
+					<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+						<CircularProgress />
+					</Box>
 				)}
-			</Masonry>
+
+				{/* Affichage des images une fois qu'elles sont toutes chargées */}
+				{galleryImages.map((image, index) => (
+					<Box key={index} className="gallery-item">
+						<img
+							src={image.src}
+							alt={`Image ${index}`}
+							onLoad={imageLoaded}
+							onClick={() => openCarousel(index)}
+							style={{ display: imageLoadedCount === galleryImages.length ? 'block' : 'none', cursor: 'pointer' }}
+						/>
+					</Box>
+				))}
+			</Box>
 
 			<GalleryDialog
 				open={openGalleryDialog}

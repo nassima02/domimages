@@ -4,13 +4,13 @@ import useProjets from "./useProjets.jsx";
 import ProjetCards from "./projetCards.jsx";
 import ProjetDialog from "./projetDialog.jsx";
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import {Box, Tooltip, Typography} from "@mui/material";
+import {Box, CircularProgress, Tooltip, Typography} from "@mui/material";
 import {AuthContext} from '../../AuthContext';
 
 function Projets() {
 	const navigate = useNavigate();
 	const [openProjetDialog, setOpenProjetDialog] = useState(false);
-	const [projets, fetchProjets] = useProjets();
+	const [projets, fetchProjets, loading] = useProjets();
 	const {user} = useContext(AuthContext); // Accédez à l'utilisateur actuel
 
 	const handleOpenProjetDialog = () => {
@@ -53,7 +53,14 @@ function Projets() {
 			<Typography variant="body1" component="p">
 				Explorez mes projets
 			</Typography>
+			{/* Affichage du spinner pendant le chargement des catégories */}
+			{loading ? (
+				<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+					<CircularProgress />
+				</Box>
+			) : (
 			<ProjetCards projets={projets} onProjetClick={handleProjetClick}/>
+				)}
 			<ProjetDialog open={openProjetDialog} onClose={handleCloseProjetDialog} updateProjets={updateProjets}
 			              refreshProjets={fetchProjets} projets={projets}/>
 		</Box>

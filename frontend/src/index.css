@@ -62,3 +62,58 @@ main::-webkit-scrollbar {
   object-fit: contain;
   max-height: calc(100vh - 64px);
 }
+
+
+/* index.css */
+.gallery-container {
+  column-count: 4; /* Par défaut, 4 colonnes pour les écrans larges */
+  column-fill: balance;
+  column-gap: 1em;
+}
+
+.gallery-item {
+  background-color: #eee;
+  display: inline-block;
+  margin: 0 0 1em;
+  height: auto;
+  transition: transform 0.3s ease; /* Transition pour l'animation */
+
+}
+
+.gallery-item:hover {
+  transform: translateY(-10px); /* Soulève l'image de 10 pixels au survol */
+}
+
+.gallery-item img {
+  width: 100%; /* L'image prend toute la largeur */
+  height: auto; /* Conserve le ratio */
+  display: block; border-radius:8px;
+}
+
+/* Pour les tablettes et les écrans moyens */
+@media (max-width: 1024px) {
+  .gallery-container {
+    column-count: 3; /* Réduire à 3 colonnes */
+  }
+}
+
+/* Pour les écrans petits (téléphones en mode paysage) */
+@media (max-width: 768px) {
+  .gallery-container {
+    column-count: 2; /* Réduire à 2 colonnes */
+  }
+}
+
+/* Pour les téléphones en mode portrait */
+@media (max-width: 480px) {
+  .gallery-container {
+    column-count: 1; /* Afficher une seule colonne */
+  }
+}
+
+
+
+
+
+
+
