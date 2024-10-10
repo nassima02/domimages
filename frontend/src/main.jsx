@@ -28,7 +28,7 @@ const theme = createTheme({
         h1: {
             color: 'var(--primary-light)',
             marginBottom:'2rem',
-            fontSize: '1.3rem',
+            fontSize: '1.75rem',
             '@media (min-width:600px)': {
                 fontSize: '2rem',
             },
@@ -37,14 +37,14 @@ const theme = createTheme({
             color: 'var(--primary-light)',
             marginBottom: '1.5rem',
             marginTop: '1.5rem',
-            fontSize: '1rem',
+            fontSize: '1.25rem',
             '@media (min-width:600px)': {
                 fontSize: '1.5rem',
             },
         },
         body1: {
             color: 'var(--primary-main)',
-            fontSize: '0.85rem',
+            fontSize: '1.10rem',
             '@media (min-width:600px)': {
                 fontSize: '1.125rem',
             },

@@ -135,7 +135,7 @@ const AvisPage = () => {
 	};
 
 	return (
-		<Container sx={{ width: { xs: '100%', sm: '80%', md: '60%' }, maxWidth: '1280px', pt: 2, m: { xs: 0, sm: 1, md: 2  }}}>
+		<Container sx={{ width: { xs: '100%', sm: '80%', md: '60%' }, maxWidth: '1280px', pt: 2, pl:0, pr:0, m: { xs: 0, sm: 1, md: 2  }}}>
 			<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', flexDirection:'column' }}>
 				<Typography variant="h1" component="h1">
 					AVIS
@@ -156,7 +156,7 @@ const AvisPage = () => {
 					mt:2
 				}}
 			/>
-			<Typography variant="h2" component="h2" >
+			<Typography variant="body1" component="body1" >
 				Avis des visiteurs
 			</Typography>
 			<AvisList avis={avis} onDelete={handleDeleteAvis} onSubmitReply={handleSubmitReply} onDeleteReply={handleDeleteReply} />

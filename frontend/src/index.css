@@ -113,7 +113,10 @@ main::-webkit-scrollbar {
 
 
 
+.css-1kjdg3u-MuiTypography-root {
+  margin-bottom: 0 !important; /* Forcer la suppression avec !important */
+}
 
-
+.css-xozrtb {margin:0 !important;}
 
 

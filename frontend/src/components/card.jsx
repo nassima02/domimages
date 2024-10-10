@@ -12,7 +12,7 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
 	boxShadow: '0px 4px 30px rgba(0, 0, 0, 1)',
 	[theme.breakpoints.down('sm')]: {
 		width: '100% !important',
-		height: 150,
+		height: 200,
 	},
 	[theme.breakpoints.up('md')]: {
 		width: '45%',
